@@ -44,4 +44,8 @@ export class UserRepository extends Repository<User> {
       return null;
     }
   }
+
+  async getUsers(): Promise<User[]> {
+    return await this.find()
+  }
 }
