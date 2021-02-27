@@ -1,0 +1,28 @@
+version: "3.7"
+
+volumes:
+  tennis_rating-local-db:
+
+services:
+  postgres:
+    image: postgres:12.4
+    container_name: postgres
+    environment:
+      POSTGRES_USER: tennis_rating
+      POSTGRES_PASSWORD: tennis_rating
+      POSTGRES_DB: tennis_rating
+    volumes:
+      - tennis_rating-local-db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  pgweb:
+    image: sosedoff/pgweb:0.11.6
+    container_name: pgweb
+    restart: always
+    ports:
+      - "5433:8081"
+    environment:
+      - DATABASE_URL=postgres://tennis_rating:tennis_rating@postgres:5432/tennis_rating?sslmode=disable
+    depends_on:
+      - postgres
