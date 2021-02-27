@@ -11,4 +11,9 @@ export class UserController {
 	signup(@Body(ValidationPipe) userCredentialsDto: UserCredentialsDto): Promise<ResultSignUpDto> {
 		return this.userService.signUp(userCredentialsDto)
 	}
+
+	@Post("/signin")
+	signIn(@Body(ValidationPipe) userCredentialsDto: UserCredentialsDto): Promise<ResultSignInI> {
+		return this.userService.signIn(userCredentialsDto)
+	}
 }

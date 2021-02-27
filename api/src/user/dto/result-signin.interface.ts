@@ -1,0 +1,3 @@
+interface ResultSignInI {
+    token: string
+}
