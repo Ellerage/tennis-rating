@@ -16,4 +16,8 @@ export class GameService {
 
         return this.gameRepository.createGame({ players: [opponent, player] })
     }
+
+    async getGames() {
+        return this.gameRepository.getGames()
+    }
 }

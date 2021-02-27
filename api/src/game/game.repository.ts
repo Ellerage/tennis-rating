@@ -15,4 +15,13 @@ export class GameRepository extends Repository<Game> {
 
         return game
     }
+
+    async getGames() {
+        const query = this.createQueryBuilder("game")
+            .leftJoinAndSelect("game.players", "user")
+
+        const games = await query.getMany()
+
+        return games
+    }
 }

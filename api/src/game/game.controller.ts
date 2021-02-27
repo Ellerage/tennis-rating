@@ -1,8 +1,9 @@
-import { Body, Controller, Post, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards, ValidationPipe } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CurrentUser } from 'src/user/user-decorator';
 import { User } from 'src/user/user.entity';
 import { CreateGameDto } from './dto/create-game.dto';
+import { Game } from './game.entity';
 import { GameService } from './game.service';
 
 @Controller('api/game')
@@ -18,5 +19,10 @@ export class GameController {
         @Body(ValidationPipe) createGameDto: CreateGameDto,
     ) {
         return this.gameService.createGame({ ...createGameDto, player: user })
+    }
+
+    @Get()
+    getGames(): Promise<Game[]> {
+        return this.gameService.getGames()
     }
 }
