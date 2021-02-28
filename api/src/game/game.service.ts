@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { UserRepository } from 'src/user/user.repository';
 import { CreateGameI } from './dto/create-game.interface';
 import { SelectWinnerDto } from './dto/select-winner.dto';
@@ -25,7 +25,16 @@ export class GameService {
     async selectWinner(selectWinnerDto: SelectWinnerDto) {
         const { winnerId, gameId } = selectWinnerDto
 
-        const winnerUser = await this.userRepository.findOne(winnerId)
+        const game = await this.gameRepository.getGameById(gameId)
+
+        if (game.winner) {
+            throw new ConflictException("The winner has already been selected")
+        }
+
+        const winnerUser = game.players.find((player) => player.id === winnerId)
+        const loseUser = game.players.find((player) => player.id !== winnerId)
+
+        await this.userRepository.updateRating(winnerId, loseUser.id, true)
 
         return this.gameRepository.selectWinner({ winnerUser, gameId })
     }

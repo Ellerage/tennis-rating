@@ -8,6 +8,7 @@ import { UserCredentialsDto } from './dto/user-credentials.dto';
 import { genSalt, hash } from 'bcryptjs';
 import { ResultSignUpDto } from './dto/result-signup.dto';
 import { uuid } from 'uuidv4';
+var EloRating = require('elo-rating');
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
@@ -33,9 +34,21 @@ export class UserRepository extends Repository<User> {
     }
   }
 
+  async updateRating(playerId: string, opponentId: string, playerWin: boolean) {
+    const player = await this.findOne(playerId)
+    const opponent = await this.findOne(opponentId)
+
+    const result = EloRating.calculate(player.rating, opponent.rating, playerWin)
+
+    player.rating = result.playerRating
+    opponent.rating = result.opponentRating
+
+    await player.save()
+    await opponent.save()
+  }
+
   async validateUserPassword(authCredentialsDto: UserCredentialsDto) {
     const { username, password } = authCredentialsDto;
-    console.log(username)
     const user = await this.findOne({ username });
 
     if (user && user.validatePassword(password)) {
