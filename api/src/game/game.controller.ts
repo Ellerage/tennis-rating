@@ -3,6 +3,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { CurrentUser } from 'src/user/user-decorator';
 import { User } from 'src/user/user.entity';
 import { CreateGameDto } from './dto/create-game.dto';
+import { SelectWinnerDto } from './dto/select-winner.dto';
 import { Game } from './game.entity';
 import { GameService } from './game.service';
 
@@ -24,5 +25,10 @@ export class GameController {
     @Get()
     getGames(): Promise<Game[]> {
         return this.gameService.getGames()
+    }
+
+    @Post("/winner")
+    selectWinner(@Body(ValidationPipe) selectWinnerDto: SelectWinnerDto) {
+        return this.gameService.selectWinner(selectWinnerDto)
     }
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { UserRepository } from 'src/user/user.repository';
 import { CreateGameI } from './dto/create-game.interface';
+import { SelectWinnerDto } from './dto/select-winner.dto';
 import { GameRepository } from './game.repository';
 
 @Injectable()
@@ -19,5 +20,13 @@ export class GameService {
 
     async getGames() {
         return this.gameRepository.getGames()
+    }
+
+    async selectWinner(selectWinnerDto: SelectWinnerDto) {
+        const { winnerId, gameId } = selectWinnerDto
+
+        const winnerUser = await this.userRepository.findOne(winnerId)
+
+        return this.gameRepository.selectWinner({ winnerUser, gameId })
     }
 }

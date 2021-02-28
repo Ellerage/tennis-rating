@@ -6,6 +6,9 @@ export class Game extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
+    @ManyToOne(() => User, user => user.winnerGames)
+    winner?: User
+
     @ManyToMany(() => User)
     @JoinTable()
     players: User[]

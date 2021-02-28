@@ -1,5 +1,6 @@
 import { User } from 'src/user/user.entity';
 import { Repository, EntityRepository } from 'typeorm';
+import { SelectWinnerDto } from './dto/select-winner.dto';
 
 import { Game } from './game.entity';
 
@@ -19,9 +20,20 @@ export class GameRepository extends Repository<Game> {
     async getGames() {
         const query = this.createQueryBuilder("game")
             .leftJoinAndSelect("game.players", "user")
+            .leftJoinAndSelect("game.winner", "winner")
 
         const games = await query.getMany()
 
         return games
+    }
+
+    async selectWinner(selectWinner: { winnerUser: User, gameId: string }) {
+        const { winnerUser, gameId } = selectWinner
+
+        const game = await this.findOne(gameId)
+
+        game.winner = winnerUser
+
+        return await game.save()
     }
 }
