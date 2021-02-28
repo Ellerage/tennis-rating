@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Post, ValidationPipe } from '@nestjs/common'
+import { FilterUserDto } from './dto/filter-user.dto'
 import { ResultSignUpDto } from './dto/result-signup.dto'
 import { UserCredentialsDto } from './dto/user-credentials.dto'
 import { User } from './user.entity'
@@ -19,7 +20,7 @@ export class UserController {
 	}
 
 	@Get()
-	getUsers(): Promise<User[]> {
-		return this.userService.getUsers()
+	getUsers(@Body() filterUser: FilterUserDto): Promise<User[]> {
+		return this.userService.getUsers(filterUser)
 	}
 }

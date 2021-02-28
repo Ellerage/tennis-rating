@@ -1,6 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
+import { FilterUserDto } from './dto/filter-user.dto';
 import { ResultSignUpDto } from './dto/result-signup.dto';
 import { UserCredentialsDto } from './dto/user-credentials.dto';
 import { JwtPayload } from './jwt-payload.interface';
@@ -31,7 +32,7 @@ export class UserService {
     return { token }
   }
 
-  getUsers(): Promise<User[]> {
-    return this.userRepository.getUsers()
+  getUsers(filterUser: FilterUserDto): Promise<User[]> {
+    return this.userRepository.getUsers(filterUser)
   }
 }

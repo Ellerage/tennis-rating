@@ -9,6 +9,7 @@ import { UserCredentialsDto } from './dto/user-credentials.dto';
 import { genSalt, hash } from 'bcryptjs';
 import { ResultSignUpDto } from './dto/result-signup.dto';
 import { uuid } from 'uuidv4';
+import { FilterUserDto } from './dto/filter-user.dto';
 var EloRating = require('elo-rating');
 
 @EntityRepository(User)
@@ -63,7 +64,16 @@ export class UserRepository extends Repository<User> {
     }
   }
 
-  async getUsers(): Promise<User[]> {
-    return await this.find()
+  async getUsers(filterUser: FilterUserDto): Promise<User[]> {
+    const { name } = filterUser
+
+    if (name) {
+      const query = this.createQueryBuilder("user")
+        .where("user.username like :name", { name: `%${name}%` })
+
+      return await query.getMany()
+    } else {
+      return await this.find()
+    }
   }
 }
