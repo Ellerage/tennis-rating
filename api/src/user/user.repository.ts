@@ -3,6 +3,7 @@ import { User } from './user.entity';
 import {
   ConflictException,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { UserCredentialsDto } from './dto/user-credentials.dto';
 import { genSalt, hash } from 'bcryptjs';
@@ -37,6 +38,10 @@ export class UserRepository extends Repository<User> {
   async updateRating(playerId: string, opponentId: string, playerWin: boolean) {
     const player = await this.findOne(playerId)
     const opponent = await this.findOne(opponentId)
+
+    if (!player || !opponent) {
+      throw new NotFoundException("Not found")
+    }
 
     const result = EloRating.calculate(player.rating, opponent.rating, playerWin)
 

@@ -1,3 +1,4 @@
+import { NotFoundException } from '@nestjs/common';
 import { User } from 'src/user/user.entity';
 import { Repository, EntityRepository } from 'typeorm';
 
@@ -34,6 +35,10 @@ export class GameRepository extends Repository<Game> {
 
         const game = await query.getOne()
 
+        if (!game) {
+            throw new NotFoundException("Not found")
+        }
+
         return game
     }
 
@@ -41,6 +46,10 @@ export class GameRepository extends Repository<Game> {
         const { winnerUser, gameId } = selectWinner
 
         const game = await this.findOne(gameId)
+
+        if (!game) {
+            throw new NotFoundException("Not found")
+        }
 
         game.winner = winnerUser
 
