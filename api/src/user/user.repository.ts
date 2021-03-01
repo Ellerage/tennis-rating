@@ -84,6 +84,19 @@ export class UserRepository extends Repository<User> {
     }
   }
 
+  async getUserById(id: string): Promise<User> {
+    const user = await this.findOne(id)
+
+    if (!user) {
+      throw new NotFoundException("Not found")
+    }
+
+    delete user.password
+    delete user.salt
+
+    return user
+  }
+
   // TODO: Улучшить сущьность и убрать селект поля
   removeProtectedFileds(users: User[]) {
     return users.map((user) => {

@@ -35,4 +35,8 @@ export class UserService {
   getUsers(filterUser: FilterUserDto): Promise<User[]> {
     return this.userRepository.getUsers(filterUser)
   }
+
+  getUserById(id: string): Promise<User> {
+    return this.userRepository.getUserById(id)
+  }
 }
