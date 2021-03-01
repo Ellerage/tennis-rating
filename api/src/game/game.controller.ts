@@ -23,8 +23,9 @@ export class GameController {
     }
 
     @Get()
-    getGames(): Promise<Game[]> {
-        return this.gameService.getGames()
+    @UseGuards(AuthGuard("jwt"))
+    getGames(@CurrentUser() user: User): Promise<Game[]> {
+        return this.gameService.getGames(user)
     }
 
     @Post("/winner")
