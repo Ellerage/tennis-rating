@@ -14,13 +14,22 @@ export class User extends BaseEntity {
     @Column({ default: 1000 })
     rating: number
 
+    @Column()
+    firstName: string
+
+    @Column()
+    lastName: string
+
+    @Column()
+    email: string
+
     @OneToMany(() => Game, game => game.winner)
     winnerGames: Game[]
 
-    @Column({ select: false })
+    @Column()
     password: string;
 
-    @Column({ select: false })
+    @Column()
     salt: string
 
     async validatePassword(password: string): Promise<boolean> {
