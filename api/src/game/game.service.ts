@@ -1,4 +1,5 @@
 import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
+import { User } from 'src/user/user.entity';
 import { UserRepository } from 'src/user/user.repository';
 import { CreateGameI } from './dto/create-game.interface';
 import { SelectWinnerDto } from './dto/select-winner.dto';
@@ -23,8 +24,8 @@ export class GameService {
         return this.gameRepository.createGame({ players: [opponent, player] })
     }
 
-    async getGames() {
-        return this.gameRepository.getGames()
+    async getGames(user: User) {
+        return this.gameRepository.getGames(user)
     }
 
     async selectWinner(selectWinnerDto: SelectWinnerDto) {

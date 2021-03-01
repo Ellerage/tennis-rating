@@ -7,7 +7,6 @@ import { Game } from './game.entity';
 @EntityRepository(Game)
 export class GameRepository extends Repository<Game> {
     async createGame(createGame: { players: User[] }) {
-
         const game = this.create()
 
         game.players = createGame.players
@@ -17,14 +16,16 @@ export class GameRepository extends Repository<Game> {
         return game
     }
 
-    async getGames() {
+    async getGames(user: User) {
         const query = this.createQueryBuilder("game")
             .leftJoinAndSelect("game.players", "user")
             .leftJoinAndSelect("game.winner", "winner")
 
         const games = await query.getMany()
 
-        return games
+        return games.filter((game) => {
+            return game.players.find((player) => player.id === user.id)
+        })
     }
 
     async getGameById(id: string) {
