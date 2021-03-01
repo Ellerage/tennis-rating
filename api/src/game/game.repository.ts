@@ -56,4 +56,17 @@ export class GameRepository extends Repository<Game> {
 
         return await game.save()
     }
+
+    async getStatsUserById(user: User) {
+        const myGames = await this.getGames(user)
+        const finishedGames = myGames.filter((game) => game.winner)
+
+        const winAmount = finishedGames.reduce((wonAmount, currentGame) =>
+            currentGame.winner.id === user.id ? wonAmount + 1 : wonAmount
+            , 0)
+
+        return {
+            winRate: Math.floor((winAmount / finishedGames.length) * 100)
+        }
+    }
 }
