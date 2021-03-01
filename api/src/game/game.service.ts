@@ -1,4 +1,4 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
 import { UserRepository } from 'src/user/user.repository';
 import { CreateGameI } from './dto/create-game.interface';
 import { SelectWinnerDto } from './dto/select-winner.dto';
@@ -13,6 +13,11 @@ export class GameService {
 
     async createGame(createGame: CreateGameI) {
         const { opponentId, player } = createGame
+
+        if (opponentId === player.id) {
+            throw new BadRequestException("You cannot challenge yourself")
+        }
+
         const opponent = await this.userRepository.findOne(opponentId)
 
         return this.gameRepository.createGame({ players: [opponent, player] })
