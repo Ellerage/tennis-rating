@@ -1,4 +1,4 @@
-import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { User } from 'src/user/user.entity';
 import { UserRepository } from 'src/user/user.repository';
 import { CreateGameI } from './dto/create-game.interface';
@@ -43,5 +43,15 @@ export class GameService {
         await this.userRepository.updateRating(winnerId, loseUser.id, true)
 
         return this.gameRepository.selectWinner({ winnerUser, gameId })
+    }
+
+    async getStatsUserById(userId: string) {
+        const user = await this.userRepository.getUserById(userId)
+
+        if (!user) {
+            throw new NotFoundException("User not found")
+        }
+
+        return this.gameRepository.getStatsUserById(user)
     }
 }
