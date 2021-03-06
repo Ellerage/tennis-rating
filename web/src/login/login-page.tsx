@@ -17,7 +17,7 @@ export const LoginPage = (): ReactElement => {
           <Header />
         </Box>
         <Box width="100%" marginTop="16px">
-          <ButtonStyle text="Sign in" border="1px solid" />
+          <ButtonStyle text="Sign in" />
           <ButtonStyle text="Sign up" />
         </Box>
         {/* <form noValidate autoComplete="off"> */}

@@ -4,8 +4,9 @@ import { ButtonBase, BoxProps } from "@material-ui/core";
 interface Props {
   text: string;
   props?: BoxProps;
+  isActive?: boolean;
 }
-export const ButtonStyle = ({ text, props }: Props): ReactElement => {
+export const ButtonStyle = ({ text, props, isActive }: Props): ReactElement => {
   return (
     <ButtonBase
       {...props}
