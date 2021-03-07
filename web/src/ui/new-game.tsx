@@ -15,7 +15,7 @@ const StyledSelect = styled(Select)`
 `;
 export const NewGame = () => {
   return (
-    <Box width="850px" height="150px" border="1px solid red">
+    <Box width="850px" height="150px" bgcolor="#323232">
       <Box
         display="flex"
         justifyContent="center"
@@ -34,7 +34,7 @@ export const NewGame = () => {
         Winner
         <FormControl variant="filled">
           <StyledInputLabel htmlFor="filled-age-native-simple">
-            Age
+            Predator
           </StyledInputLabel>
           <StyledSelect
             native
@@ -54,7 +54,7 @@ export const NewGame = () => {
         Loser
         <FormControl variant="filled">
           <StyledInputLabel htmlFor="filled-age-native-simple">
-            Age
+            Prey
           </StyledInputLabel>
           <StyledSelect
             native
