@@ -15,12 +15,15 @@ var EloRating = require('elo-rating');
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
   async signUp(authCredentialsDto: UserCredentialsDto): Promise<ResultSignUpDto> {
-    const { username, password } = authCredentialsDto;
+    const { username, password, firstName, lastName, email } = authCredentialsDto;
 
     const user = this.create();
 
     user.id = uuid();
     user.username = username;
+    user.firstName = firstName
+    user.lastName = lastName
+    user.email = email
     user.salt = await genSalt();
     user.password = await hash(password, user.salt);
 
@@ -57,7 +60,7 @@ export class UserRepository extends Repository<User> {
     const { username, password } = authCredentialsDto;
     const user = await this.findOne({ username });
 
-    if (user && user.validatePassword(password)) {
+    if (user && await user.validatePassword(password)) {
       return user.username;
     } else {
       return null;
@@ -71,9 +74,35 @@ export class UserRepository extends Repository<User> {
       const query = this.createQueryBuilder("user")
         .where("user.username like :name", { name: `%${name}%` })
 
-      return await query.getMany()
+      const users = await query.getMany()
+
+      return this.removeProtectedFileds(users)
     } else {
-      return await this.find()
+      const users = await this.find()
+
+      return this.removeProtectedFileds(users)
     }
+  }
+
+  async getUserById(id: string): Promise<User> {
+    const user = await this.findOne(id)
+
+    if (!user) {
+      throw new NotFoundException("Not found")
+    }
+
+    delete user.password
+    delete user.salt
+
+    return user
+  }
+
+  // TODO: Улучшить сущьность и убрать селект поля
+  removeProtectedFileds(users: User[]) {
+    return users.map((user) => {
+      delete user.password
+      delete user.salt
+      return user
+    })
   }
 }

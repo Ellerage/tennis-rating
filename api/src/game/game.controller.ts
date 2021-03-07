@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards, ValidationPipe } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CurrentUser } from 'src/user/user-decorator';
 import { User } from 'src/user/user.entity';
@@ -23,12 +23,19 @@ export class GameController {
     }
 
     @Get()
-    getGames(): Promise<Game[]> {
-        return this.gameService.getGames()
+    @UseGuards(AuthGuard("jwt"))
+    getGames(@CurrentUser() user: User): Promise<Game[]> {
+        return this.gameService.getGames(user)
     }
 
     @Post("/winner")
     selectWinner(@Body(ValidationPipe) selectWinnerDto: SelectWinnerDto) {
         return this.gameService.selectWinner(selectWinnerDto)
     }
+
+    @Get("/stats/:id")
+    getStatsUserById(@Param("id") userId: string) {
+        return this.gameService.getStatsUserById(userId)
+    }
+
 }
