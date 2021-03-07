@@ -77,8 +77,6 @@ export function RankingTable() {
 
   return (
     <Box display="flex" justifyContent="center">
-      {/* <TableContainer component={Box}> */}
-      {/* <Box display="flex">RANGKING</Box> */}
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -115,7 +113,6 @@ export function RankingTable() {
           ))}
         </TableBody>
       </Table>
-      {/* </TableContainer> */}
     </Box>
   );
 }

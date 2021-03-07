@@ -6,7 +6,7 @@ import { AppRouter } from "./route/app-router";
 import { RegisterPage } from "./register/register-page";
 import { NewGame } from "./ui/new-game";
 import { Ranking } from "./ranking/ranking";
-
+import { MatchHistory } from "./match-history/match-history";
 import { Profile } from "./profile/profile";
 
 function App() {
@@ -30,7 +30,8 @@ function App() {
         {/* <RegisterPage /> */}
         {/* <NewGame /> */}
         {/* </AppRouter> */}
-        <Profile />
+        {/* <Profile /> */}
+        <MatchHistory />
       </div>
     </ThemeProvider>
   );
