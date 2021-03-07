@@ -1,9 +1,16 @@
 import React from "react";
-import { Box, TextField, Button } from "@material-ui/core";
+import { Box, TextField, Button, makeStyles } from "@material-ui/core";
 import { Header } from "../ui/header";
 import { ButtonStyle } from "../ui/button";
+import styled from "styled-components";
 
+const useStyles = makeStyles({
+  notchedOutline: {
+    border: "1px solid white !important",
+  },
+});
 export const RegisterPage = () => {
+  const classes = useStyles();
   return (
     <Box
       width="100vw"
@@ -33,8 +40,8 @@ export const RegisterPage = () => {
                 id="outlined-basic"
                 label="First name"
                 variant="outlined"
-                color="secondary"
                 style={{ width: "340px", color: "white", marginRight: "5px" }}
+                inputProps={{ className: classes.notchedOutline }}
               />
               <TextField
                 id="outlined-basic"

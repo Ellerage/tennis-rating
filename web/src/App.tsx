@@ -5,6 +5,7 @@ import { ThemeProvider, createMuiTheme } from "@material-ui/core";
 import { AppRouter } from "./route/app-router";
 import { RegisterPage } from "./register/register-page";
 import { NewGame } from "./ui/new-game";
+import { Ranking } from "./ranking/ranking";
 function App() {
   const theme = createMuiTheme({
     palette: {
@@ -20,9 +21,10 @@ function App() {
     <ThemeProvider theme={theme}>
       <div className="App">
         {/* <LoginPage /> */}
+        <Ranking />
         {/* <AppRouter /> */}
         {/* <RegisterPage /> */}
-        <NewGame />
+        {/* <NewGame /> */}
         {/* </AppRouter> */}
       </div>
     </ThemeProvider>
