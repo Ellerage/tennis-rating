@@ -25,58 +25,67 @@ export const RegisterPage = () => {
         >
           <ButtonStyle text="Sign in" />
           <ButtonStyle text="Sign up" isActive={true} />
-          <Box position="absolute" top="280px">
-            <TextField
-              id="outlined-basic"
-              label="first name"
-              variant="outlined"
-              color="secondary"
-              style={{ width: "340px", color: "white" }}
-            />
-            <TextField
-              id="outlined-basic"
-              label="second name"
-              variant="outlined"
-              color="secondary"
-              style={{ width: "340px", color: "white" }}
-            />
-          </Box>
-          <Box position="absolute" top="380px">
-            <TextField
-              id="outlined-basic"
-              label="123"
-              variant="outlined"
-              color="secondary"
-              style={{ width: "340px", color: "white" }}
-            />
-            <TextField
-              id="outlined-basic"
-              label="1234"
-              variant="outlined"
-              color="secondary"
-              style={{ width: "340px", color: "white" }}
-            />
-          </Box>
-          <Box position="absolute" top="480px">
-            <TextField
-              id="outlined-basic"
-              label="13254"
-              variant="outlined"
-              color="secondary"
-              style={{ width: "340px", color: "white" }}
-            />
-            <TextField
-              id="outlined-basic"
-              label="123123"
-              variant="outlined"
-              color="secondary"
-              style={{ width: "340px", color: "white" }}
-            />
-          </Box>
-          <Box position="relative" top="580px" left="110px">
-            <Button variant="contained" color="secondary" size="large">
-              LOG IN
-            </Button>
+        </Box>
+        <Box display="flex" justifyContent="center" marginTop="20px">
+          <Box display="flex" width="710px" flexWrap="wrap">
+            <Box margin="10px">
+              <TextField
+                id="outlined-basic"
+                label="First name"
+                variant="outlined"
+                color="secondary"
+                style={{ width: "340px", color: "white", marginRight: "5px" }}
+              />
+              <TextField
+                id="outlined-basic"
+                label="E-mail"
+                variant="outlined"
+                color="secondary"
+                style={{ width: "340px", color: "white", marginLeft: "5px" }}
+              />
+            </Box>
+            <Box margin="10px">
+              <TextField
+                id="outlined-basic"
+                label="Second name"
+                variant="outlined"
+                color="secondary"
+                style={{ width: "340px", color: "white", marginRight: "5px" }}
+              />
+              <TextField
+                id="outlined-basic"
+                label="Password"
+                variant="outlined"
+                color="secondary"
+                style={{ width: "340px", color: "white", marginLeft: "5px" }}
+              />
+            </Box>
+            <Box margin="10px">
+              <TextField
+                id="outlined-basic"
+                label="Aka"
+                variant="outlined"
+                color="secondary"
+                style={{ width: "340px", color: "white", marginRight: "5px" }}
+              />
+              <TextField
+                id="outlined-basic"
+                label="Password confirmation"
+                variant="outlined"
+                color="secondary"
+                style={{ width: "340px", color: "white", marginLeft: "5px" }}
+              />
+            </Box>
+            <Box
+              width="700px"
+              display="flex"
+              justifyContent="flex-end"
+              marginTop="20px"
+            >
+              <Button variant="contained" color="secondary" size="large">
+                LOG IN
+              </Button>
+            </Box>
           </Box>
         </Box>
       </Box>

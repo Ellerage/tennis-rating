@@ -16,6 +16,7 @@ export const ButtonStyle = ({ text, props, isActive }: Props): ReactElement => {
         color: "white",
         fontSize: "16px",
         background: "#1A1A1A",
+        borderBottom: isActive ? "1px solid red" : "none",
       }}
     >
       {text}
