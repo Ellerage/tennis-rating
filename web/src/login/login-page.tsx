@@ -17,12 +17,12 @@ export const LoginPage = (): ReactElement => {
           <Header />
         </Box>
         <Box width="100%" marginTop="16px">
-          <ButtonStyle text="Sign in" border="1px solid" />
+          <ButtonStyle text="Sign in" />
           <ButtonStyle text="Sign up" />
         </Box>
         {/* <form noValidate autoComplete="off"> */}
-        <Box width="500px" display="flex" justifyContent="center">
-          <Box position="absolute" top="390px" height="36px">
+        <Box flexWrap="wrap" width="340px" marginLeft="50px">
+          <Box height="36px" margin="30px">
             <TextField
               id="filled-basic"
               label="E-mail"
@@ -32,7 +32,7 @@ export const LoginPage = (): ReactElement => {
               style={{ width: "340px", color: "white" }}
             />
           </Box>
-          <Box position="absolute" top="480px">
+          <Box margin="30px" marginTop="50px">
             <TextField
               id="outlined-basic"
               label="Password"
@@ -41,7 +41,7 @@ export const LoginPage = (): ReactElement => {
               style={{ width: "340px", color: "white" }}
             />
           </Box>
-          <Box position="relative" top="300px" left="110px">
+          <Box display="flex" justifyContent="flex-end">
             <Button variant="contained" color="secondary" size="large">
               LOG IN
             </Button>

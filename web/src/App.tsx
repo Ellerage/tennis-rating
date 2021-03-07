@@ -2,7 +2,9 @@ import React from "react";
 import { LoginPage } from "./login/login-page";
 import "./App.css";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core";
-
+import { AppRouter } from "./route/app-router";
+import { RegisterPage } from "./register/register-page";
+import { NewGame } from "./ui/new-game";
 function App() {
   const theme = createMuiTheme({
     palette: {
@@ -17,7 +19,11 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
-        <LoginPage />
+        {/* <LoginPage /> */}
+        {/* <AppRouter /> */}
+        {/* <RegisterPage /> */}
+        <NewGame />
+        {/* </AppRouter> */}
       </div>
     </ThemeProvider>
   );
