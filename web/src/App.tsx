@@ -31,6 +31,7 @@ function App() {
         {/* <NewGame /> */}
         {/* </AppRouter> */}
         {/* <Profile /> */}
+
         {/* <MatchHistory /> */}
         <Aneki />
       </div>
