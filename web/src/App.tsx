@@ -8,7 +8,7 @@ import { NewGame } from "./ui/new-game";
 import { Ranking } from "./ranking/ranking";
 import { MatchHistory } from "./match-history/match-history";
 import { Profile } from "./profile/profile";
-
+import { Aneki } from "./aneki/aneki";
 function App() {
   const theme = createMuiTheme({
     palette: {
@@ -31,7 +31,9 @@ function App() {
         {/* <NewGame /> */}
         {/* </AppRouter> */}
         {/* <Profile /> */}
-        <MatchHistory />
+
+        {/* <MatchHistory /> */}
+        <Aneki />
       </div>
     </ThemeProvider>
   );
