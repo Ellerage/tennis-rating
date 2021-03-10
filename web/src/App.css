@@ -39,3 +39,8 @@ body {
     transform: rotate(360deg);
   }
 }
+
+
+.MuiSelect-icon {
+  color: white !important;
+}

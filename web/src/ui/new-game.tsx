@@ -1,19 +1,25 @@
-import React from 'react'
-import { Box, FormControl, InputLabel, Button } from '@material-ui/core'
+import React, { ReactElement } from 'react'
+import { Box, FormControl, InputLabel, Button,  } from '@material-ui/core'
 import Select from '@material-ui/core/Select'
-import styled from 'styled-components'
+import MenuItem from '@material-ui/core/MenuItem'
+import { makeStyles } from '@material-ui/core/styles'
 
-const StyledInputLabel = styled(InputLabel)`
-  color: white;
-`
 
-const StyledSelect = styled(Select)`
-  border: 1px solid white;
-  width: 240px;
-  height: 46px;
-  border-radius: 4px;
-`
-export const NewGame = () => {
+const useStyles = makeStyles((theme) => ({
+	formControl: {
+		margin: theme.spacing(1),
+		minWidth: 240,
+		
+	},
+	selectEmpty: {
+		marginTop: theme.spacing(2),
+	},
+}))
+
+
+export const NewGame = (): ReactElement => {
+	const classes = useStyles()
+	
 	return (
 		<Box width="850px" height="150px" bgcolor="#323232">
 			<Box
@@ -31,46 +37,40 @@ export const NewGame = () => {
 				alignItems="center"
 				marginTop="20px"
 			>
-        Winner
-				<FormControl variant="filled">
-					<StyledInputLabel htmlFor="filled-age-native-simple">
-            Predator
-					</StyledInputLabel>
-					<StyledSelect
-						native
-						value={'max'}
-						inputProps={{
-							name: 'age',
-							id: 'filled-age-native-simple',
-							border: '1px solid white',
-						}}
+				<FormControl variant="outlined" className={classes.formControl} style={{border: '2px solid white', borderRadius: '4px'}}>
+					<InputLabel id="demo-simple-select-outlined-label" style={{backgroundColor: '#323232', color: 'white', paddingLeft: '5px', paddingRight: '7px'}}>Winner</InputLabel>
+					<Select
+						labelId="demo-simple-select-outlined-label"
+						id="demo-simple-select-outlined"
+						value={10}
+						style={{color: 'white'}}
+						onChange={() => null}
+						label="Age"
 					>
-						<option aria-label="None" value="" />
-						<option value={10}>Ten</option>
-						<option value={20}>Twenty</option>
-						<option value={30}>Thirty</option>
-					</StyledSelect>
+						<MenuItem value=""><em>None</em></MenuItem>
+						<MenuItem value={10}>Ten</MenuItem>
+						<MenuItem value={20}>Twenty</MenuItem>
+						<MenuItem value={30}>Thirty</MenuItem>
+					</Select>
 				</FormControl>
-        Loser
-				<FormControl variant="filled">
-					<StyledInputLabel htmlFor="filled-age-native-simple">
-            Prey
-					</StyledInputLabel>
-					<StyledSelect
-						native
-						value={'max'}
-						inputProps={{
-							name: 'age',
-							id: 'filled-age-native-simple',
-							border: '1px solid white',
-						}}
+			
+				<FormControl variant="outlined" className={classes.formControl} style={{border: '2px solid white', borderRadius: '4px'}}>
+					<InputLabel id="demo-simple-select-outlined-label" style={{backgroundColor: '#323232', color: 'white', paddingLeft: '5px', paddingRight: '7px'}}>Loser</InputLabel>
+					<Select
+						labelId="demo-simple-select-outlined-label"
+						id="demo-simple-select-outlined"
+						value={10}
+						style={{color: 'white'}}
+						onChange={() => null}
+						label="Age"
 					>
-						<option aria-label="None" value="" />
-						<option value={10}>Ten</option>
-						<option value={20}>Twenty</option>
-						<option value={30}>Thirty</option>
-					</StyledSelect>
+						<MenuItem value=""><em>None</em></MenuItem>
+						<MenuItem value={10}>Ten</MenuItem>
+						<MenuItem value={20}>Twenty</MenuItem>
+						<MenuItem value={30}>Thirty</MenuItem>
+					</Select>
 				</FormControl>
+
 				<Button variant="contained" color="secondary" size="large">
           SUBMIT
 				</Button>
