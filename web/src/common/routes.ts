@@ -1,0 +1,8 @@
+export enum Routes {
+    LOGIN = 'LOGIN',
+    SIGNUP = 'SIGNUP',
+    RANKING = 'RANKING',
+    PROFILE = 'PROFILE',
+    HISTORY = 'HISTORY',
+    ANEKI = 'ANEKI'
+}
