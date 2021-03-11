@@ -6,6 +6,11 @@ import { makeStyles } from '@material-ui/core/styles'
 import { getUrlApi } from '../common/get-url'
 
 
+interface Props {
+	users: any
+	getUsersAsync: () => void
+}
+
 const useStyles = makeStyles((theme) => ({
 	formControl: {
 		margin: theme.spacing(1),
@@ -18,22 +23,28 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-export const NewGame = (): ReactElement => {
+export const NewGame = ({users, getUsersAsync}: Props): ReactElement => {
 	const classes = useStyles()
-	const [users, setUsers] = useState<any>([])
 	const [winnerId, setWinnerId] = useState<string | undefined | unknown>('')
 	const [loserId, setLoserId] = useState<string | undefined | unknown>('')
-
-	useEffect(() => {
-		const initAsync = async () => {
-			const response = await fetch(getUrlApi('user'))
-			const result = await response.json()
-			setUsers(result)
-		}
-
-		initAsync()
-	}, [])
 	
+	const handleCreateGameAsync = async () => {
+		const jwtToken = localStorage.getItem('token')
+
+		const response = await fetch(getUrlApi('game/create'), {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `Bearer ${jwtToken}`
+			},
+			body: JSON.stringify({winnerId, loserId})
+		})
+
+		await response.json()
+
+		getUsersAsync()
+	}
+
 	return (
 		<Box width="850px" height="150px" bgcolor="#323232">
 			<Box
@@ -81,8 +92,8 @@ export const NewGame = (): ReactElement => {
 					</Select>
 				</FormControl>
 
-				<Button variant="contained" color="secondary" size="large">
-          SUBMIT
+				<Button variant="contained" color="secondary" size="large" onClick={handleCreateGameAsync}>
+					SUBMIT
 				</Button>
 			</Box>
 		</Box>

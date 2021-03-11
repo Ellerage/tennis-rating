@@ -4,14 +4,18 @@ import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 import { Box } from '@material-ui/core'
 
 import avatar from '../ui/icons/avatar.png'
 import { useHistory } from 'react-router'
 import { Routes } from '../common/routes'
-import { getUrlApi } from '../common/get-url'
+
+interface Props {
+	users: any
+}
+
 const useStyles = makeStyles({
 	table: {
 		width: 850,
@@ -31,18 +35,8 @@ const StyledImg = styled.img`
   height: 50px;
   border-radius: 50%;
 `
-export const RankingTable = (): ReactElement => {
-	const [users, setUsers] = useState<any>([])
+export const RankingTable = ({users}: Props): ReactElement => {
 	
-	useEffect(() => {
-		const initAsync = async () => {
-			const response = await fetch(getUrlApi('user'))
-			const result = await response.json()
-			setUsers(result)
-		}
-
-		initAsync()
-	}, [])
 	
 	const classes = useStyles()
 	const history = useHistory()
@@ -59,7 +53,7 @@ export const RankingTable = (): ReactElement => {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{users.sort((a: any, b: any) => b.rating - a.rating).map((user: any) => (
+					{users.map((user: any) => (
 						<TableRow key={user.id}>
 							<StyledTableCell align="left" >
 								<Box
@@ -76,7 +70,7 @@ export const RankingTable = (): ReactElement => {
 								</Box>
 							</StyledTableCell>
 							<StyledTableCell component="th" scope="row">
-								{user.username}
+								{`${user.firstName} ${user.lastName}`}
 							</StyledTableCell>
 
 							<StyledTableCell align="right">{user.username}</StyledTableCell>

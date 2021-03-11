@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
 import { Box } from '@material-ui/core'
 import styled from 'styled-components'
 import img from '../ui/icons/UBER-PREDATOR.png'
-import alfa from '../ui/icons/alfapredator.png'
+import avatar from '../ui/icons/avatar.png'
+
+interface Props {
+	user: any
+}
 
 const UberBackground = styled(Box)`
   background-color: #323232;
@@ -20,7 +24,7 @@ const StyledAvatar = styled.img`
   width: 100px;
   height: 100px;
 `
-export const UberPredator = () => {
+export const UberPredator = ({user}: Props): ReactElement => {
 	return (
 		<Box display="flex" justifyContent="center">
 			<UberBackground>
@@ -30,10 +34,10 @@ export const UberPredator = () => {
 					height="150px"
 					alignItems="center"
 				>
-					<StyledAvatar src={alfa} alt="asd" />
+					<StyledAvatar src={avatar} alt="asd" />
 					<Box marginLeft="10px">
 						<Box display="flex" fontSize="24px" color="white">
-              MAXIM ANANIN
+							{`${user.firstName} ${user.lastName}`}
 						</Box>
 						<Box
 							display="flex"
@@ -41,7 +45,7 @@ export const UberPredator = () => {
 							color="#F51010"
 							fontSize="24px"
 						>
-              OVER 900000 pts
+							{user.rating}
 						</Box>
 					</Box>
 				</Box>
