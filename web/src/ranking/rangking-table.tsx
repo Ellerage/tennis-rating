@@ -4,14 +4,14 @@ import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Box } from '@material-ui/core'
-import alfa from '../ui/icons/alfapredator.png'
 
 import avatar from '../ui/icons/avatar.png'
 import { useHistory } from 'react-router'
 import { Routes } from '../common/routes'
+import { getUrlApi } from '../common/get-url'
 const useStyles = makeStyles({
 	table: {
 		width: 850,
@@ -20,47 +20,7 @@ const useStyles = makeStyles({
 	},
 })
 
-function createData(
-	name: string,
-	pos: number,
-	aka: string,
-	pts: number,
-	avatar: string
-) {
-	return { name, pos, aka, pts, avatar }
-}
-const testUser = {
-	name: 'ded',
-	pos: 1,
-	aka: 'ded',
-	pts: 9000,
-	avatar: '',
-}
-const testData = [
-	testUser,
-	testUser,
-	testUser,
-	testUser,
-	testUser,
-	testUser,
-	testUser,
-	{
-		name: 'ded',
-		pos: 1,
-		aka: 'ded',
-		pts: 9000,
-		avatar: alfa,
-	},
-]
-const rows = testData.map((item) =>
-	createData(
-		item.name,
-		item.pos,
-		item.aka,
-		item.pts,
-		item.avatar ? item.avatar : avatar
-	)
-)
+
 const StyledTableCell = styled(TableCell)`
   color: white;
   border-bottom: 1px solid #414141;
@@ -72,6 +32,18 @@ const StyledImg = styled.img`
   border-radius: 50%;
 `
 export const RankingTable = (): ReactElement => {
+	const [users, setUsers] = useState<any>([])
+	
+	useEffect(() => {
+		const initAsync = async () => {
+			const response = await fetch(getUrlApi('user'))
+			const result = await response.json()
+			setUsers(result)
+		}
+
+		initAsync()
+	}, [])
+	
 	const classes = useStyles()
 	const history = useHistory()
 	return (
@@ -81,14 +53,14 @@ export const RankingTable = (): ReactElement => {
 					<TableRow>
 						<StyledTableCell></StyledTableCell>
 						<StyledTableCell>Name</StyledTableCell>
-						<StyledTableCell align="right">Position</StyledTableCell>
+						
 						<StyledTableCell align="right">Aka</StyledTableCell>
 						<StyledTableCell align="right">Pts</StyledTableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{rows.map((row) => (
-						<TableRow key={row.name}>
+					{users.sort((a: any, b: any) => b.rating - a.rating).map((user: any) => (
+						<TableRow key={user.id}>
 							<StyledTableCell align="left" >
 								<Box
 									borderRadius="50px"
@@ -100,16 +72,15 @@ export const RankingTable = (): ReactElement => {
 									style={{cursor: 'pointer'}}
 									onClick={() => history.push(Routes.PROFILE)}
 								>
-									<StyledImg src={row.avatar} alt="avatar" />
+									<StyledImg src={avatar} alt="avatar" />
 								</Box>
 							</StyledTableCell>
 							<StyledTableCell component="th" scope="row">
-								{row.name}
+								{user.username}
 							</StyledTableCell>
 
-							<StyledTableCell align="right">{row.pos}</StyledTableCell>
-							<StyledTableCell align="right">{row.aka}</StyledTableCell>
-							<StyledTableCell align="right">{row.pts}</StyledTableCell>
+							<StyledTableCell align="right">{user.username}</StyledTableCell>
+							<StyledTableCell align="right">{user.rating}</StyledTableCell>
 						</TableRow>
 					))}
 				</TableBody>

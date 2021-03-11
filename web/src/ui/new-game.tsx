@@ -1,8 +1,9 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 import { Box, FormControl, InputLabel, Button,  } from '@material-ui/core'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import { makeStyles } from '@material-ui/core/styles'
+import { getUrlApi } from '../common/get-url'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -19,6 +20,19 @@ const useStyles = makeStyles((theme) => ({
 
 export const NewGame = (): ReactElement => {
 	const classes = useStyles()
+	const [users, setUsers] = useState<any>([])
+	const [winnerId, setWinnerId] = useState<string | undefined | unknown>('')
+	const [loserId, setLoserId] = useState<string | undefined | unknown>('')
+
+	useEffect(() => {
+		const initAsync = async () => {
+			const response = await fetch(getUrlApi('user'))
+			const result = await response.json()
+			setUsers(result)
+		}
+
+		initAsync()
+	}, [])
 	
 	return (
 		<Box width="850px" height="150px" bgcolor="#323232">
@@ -42,15 +56,13 @@ export const NewGame = (): ReactElement => {
 					<Select
 						labelId="demo-simple-select-outlined-label"
 						id="demo-simple-select-outlined"
-						value={10}
+						value={winnerId}
 						style={{color: 'white'}}
-						onChange={() => null}
-						label="Age"
+						onChange={(event) => setWinnerId(event.target.value) }
 					>
-						<MenuItem value=""><em>None</em></MenuItem>
-						<MenuItem value={10}>Ten</MenuItem>
-						<MenuItem value={20}>Twenty</MenuItem>
-						<MenuItem value={30}>Thirty</MenuItem>
+						{users.map((user: any) => {
+							return <MenuItem value={user.id} key={user.id}>{user.username}</MenuItem>
+						})}
 					</Select>
 				</FormControl>
 			
@@ -59,15 +71,13 @@ export const NewGame = (): ReactElement => {
 					<Select
 						labelId="demo-simple-select-outlined-label"
 						id="demo-simple-select-outlined"
-						value={10}
+						value={loserId}
 						style={{color: 'white'}}
-						onChange={() => null}
-						label="Age"
+						onChange={(event) => setLoserId(event.target.value) }
 					>
-						<MenuItem value=""><em>None</em></MenuItem>
-						<MenuItem value={10}>Ten</MenuItem>
-						<MenuItem value={20}>Twenty</MenuItem>
-						<MenuItem value={30}>Thirty</MenuItem>
+						{users.map((user: any) => {
+							return <MenuItem value={user.id} key={user.id}>{user.username}</MenuItem>
+						})}
 					</Select>
 				</FormControl>
 
