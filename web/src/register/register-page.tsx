@@ -1,15 +1,43 @@
-import React from 'react'
-import { Box, TextField, Button, makeStyles } from '@material-ui/core'
+import React, { ReactElement, useState } from 'react'
+import { Box, Button } from '@material-ui/core'
 import { Header } from '../ui/header'
 import { ButtonStyle } from '../ui/button'
+import { useHistory } from 'react-router'
+import { Routes } from '../common/routes'
+import { Input } from '../ui/input'
+import { getUrlApi } from '../common/get-url'
 
-const useStyles = makeStyles({
-	notchedOutline: {
-		border: '1px solid white !important',
-	},
-})
-export const RegisterPage = () => {
-	const classes = useStyles()
+
+export const RegisterPage = (): ReactElement => {
+	const history = useHistory()
+	const [firstName, setFirstName] = useState('')
+	const [email, setEmail] = useState('')
+	const [lastName, setSecondName] = useState('')
+	const [password, setPassword] = useState('')
+	const [username, setUsername] = useState('')
+	const [passwordConf, setPasswordConf] = useState('')
+
+
+	const handleSignupAsync = async () => {
+
+		if (password !== passwordConf) {
+			alert('Passwords are not the same')
+		}
+
+		const response = await fetch(getUrlApi('user/signup'), {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({username, firstName, lastName, email, password})
+		})
+		const result = await response.json()
+
+		if (result.status === 'OK') {
+			history.push(Routes.LOGIN)
+		}
+	}
+
 	return (
 		<Box
 			width="100vw"
@@ -29,71 +57,37 @@ export const RegisterPage = () => {
 					display="flex"
 					justifyContent="space-around"
 				>
-					<ButtonStyle text="Sign in" />
-					<ButtonStyle text="Sign up" isActive={true} />
+					<ButtonStyle text="Sign in" onClick={() => history.push(Routes.LOGIN)} />
+					<ButtonStyle text="Sign up" isActive={true} onClick={() => history.push(Routes.SIGNUP)} />
 				</Box>
-				<Box display="flex" justifyContent="center" marginTop="20px">
-					<Box display="flex" width="710px" flexWrap="wrap">
-						<Box margin="10px">
-							<TextField
-								id="outlined-basic"
-								label="First name"
-								variant="outlined"
-								style={{ width: '340px', color: 'white', marginRight: '5px' }}
-								inputProps={{ className: classes.notchedOutline }}
-							/>
-							<TextField
-								id="outlined-basic"
-								label="E-mail"
-								variant="outlined"
-								color="secondary"
-								style={{ width: '340px', color: 'white', marginLeft: '5px' }}
-							/>
-						</Box>
-						<Box margin="10px">
-							<TextField
-								id="outlined-basic"
-								label="Second name"
-								variant="outlined"
-								color="secondary"
-								style={{ width: '340px', color: 'white', marginRight: '5px' }}
-							/>
-							<TextField
-								id="outlined-basic"
-								label="Password"
-								variant="outlined"
-								color="secondary"
-								style={{ width: '340px', color: 'white', marginLeft: '5px' }}
-							/>
-						</Box>
-						<Box margin="10px">
-							<TextField
-								id="outlined-basic"
-								label="Aka"
-								variant="outlined"
-								color="secondary"
-								style={{ width: '340px', color: 'white', marginRight: '5px' }}
-							/>
-							<TextField
-								id="outlined-basic"
-								label="Password confirmation"
-								variant="outlined"
-								color="secondary"
-								style={{ width: '340px', color: 'white', marginLeft: '5px' }}
-							/>
-						</Box>
-						<Box
-							width="700px"
-							display="flex"
-							justifyContent="flex-end"
-							marginTop="20px"
-						>
-							<Button variant="contained" color="secondary" size="large">
-                LOG IN
-							</Button>
+				<form>
+					<Box display="flex" justifyContent="center" marginTop="20px">
+						<Box display="flex" width="710px" flexWrap="wrap">
+							<Box margin="10px">
+								<Input label="First name" onChangeText={setFirstName} />
+								<Input label="E-mail" style={{marginLeft: 10}} onChangeText={setEmail}/>
+							</Box>
+							<Box margin="10px">
+								<Input label="Second name" onChangeText={setSecondName}/>
+								<Input label="Password" style={{marginLeft: 10}} onChangeText={setPassword} />
+							</Box>
+							<Box margin="10px">
+								<Input label="Aka" onChangeText={setUsername} />
+								<Input label="Password confirmation" style={{marginLeft: 10}} onChangeText={setPasswordConf} />
+							</Box>
+							<Box
+								width="700px"
+								display="flex"
+								justifyContent="flex-end"
+								marginTop="20px"
+							>
+								<Button variant="contained" color="secondary" size="large" onClick={handleSignupAsync}>
+                Sign Up
+								</Button>
+							</Box>
 						</Box>
 					</Box>
-				</Box>
+				</form>
 			</Box>
 		</Box>
 	)

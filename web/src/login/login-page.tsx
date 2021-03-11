@@ -1,20 +1,38 @@
 
-import React from 'react'
+import React, { useState } from 'react'
 import { Box, Button } from '@material-ui/core'
-import TextField from '@material-ui/core/TextField'
 
-import { ReactElement, useState } from 'react'
+import { ReactElement } from 'react'
 import { Header } from '../ui/header'
 import { ButtonStyle } from '../ui/button'
-import { useHistory, useLocation } from 'react-router'
+import { useHistory } from 'react-router'
+import { Routes } from '../common/routes'
+import { Input } from '../ui/input'
+import { getUrlApi } from '../common/get-url'
 export const LoginPage = (): ReactElement => {
-	const [isFocused, setIsFocused] = useState(false)
-	const [isFocusedPassword, setIsFocusedPassword] = useState(false)
-	const {push} = useHistory()
+	const history = useHistory()
+	const [username, setUsername] = useState('')
+	const [password, setPassword] = useState('')
 
-	const handleLogin = () => {
-		push('/ranking')
+
+	const handleLoginAsync = async () => {
+		const response = await fetch(getUrlApi('user/signin'), {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({username, password})
+		})
+
+		const result = await response.json()
+
+		if (result.token) {
+			localStorage.setItem('token', result.token)
+
+			history.push(Routes.RANKING)
+		}
 	}
+
 
 	return (
 		<Box
@@ -29,67 +47,21 @@ export const LoginPage = (): ReactElement => {
 					<Header />
 				</Box>
 				<Box width="100%" marginTop="16px">
-					<ButtonStyle text="Sign in" />
-					<ButtonStyle text="Sign up" />
+					<ButtonStyle text="Sign in" onClick={() => history.push(Routes.LOGIN)} isActive />
+					<ButtonStyle text="Sign up" onClick={() => history.push(Routes.SIGNUP)} />
 				</Box>
 				{/* <form noValidate autoComplete="off"> */}
 				<Box flexWrap="wrap" width="340px" marginLeft="50px" >
 					<Box height="36px" margin="30px" >
-						<TextField
-							onFocus={() => setIsFocused(true)}
-							onBlur={() => setIsFocused(false)}
-							id="filled-basic"
-							label="E-mail"
-							variant="outlined"
-							color={isFocused ? 'secondary' : 'primary'}
-							size="medium"
-							style={{ width: '340px', color: 'white' }}
-							InputProps={{
-								style: {
-									color: 'white',
-									border: isFocused ? 'none' : '1px solid white'
-								}
-							}}
-							InputLabelProps={{
-								style: {
-									color: isFocused ? '#F51010' : 'white',
-									paddingLeft: '5px',
-									paddingRight: '7px',
-									backgroundColor: '#323232',
-								}
-							}}
-						/>
+						<Input label="Username" onChangeText={setUsername} />
 					</Box>
 
 					<Box height="36px" margin="30px" marginTop="50px" >
-						<TextField
-							onFocus={() => setIsFocusedPassword(true)}
-							onBlur={() => setIsFocusedPassword(false)}
-							id="outlined-basic"
-							label="Password"
-							variant="outlined"
-							color={isFocusedPassword ? 'secondary' : 'primary'}
-							size="medium"
-							style={{ width: '340px', color: 'white' }}
-							InputProps={{
-								style: {
-									color: 'white',
-									border: isFocusedPassword ? 'none' : '1px solid white'
-								}
-							}}
-							InputLabelProps={{
-								style: {
-									color: isFocusedPassword ? '#F51010' : 'white',
-									paddingLeft: '5px',
-									paddingRight: '7px',
-									backgroundColor: '#323232',
-								}
-							}}
-						/>
+						<Input label="Password" onChangeText={setPassword} />
 					</Box>
 
 					<Box display="flex" justifyContent="flex-end" marginRight="-30px" marginTop="80px">
-						<Button variant="contained" color="secondary" size="large" onClick={handleLogin}>
+						<Button variant="contained" color="secondary" size="large" onClick={handleLoginAsync}>
 							LOG IN
 						</Button>
 					</Box>

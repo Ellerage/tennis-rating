@@ -5,11 +5,13 @@ interface Props {
   text: string;
   props?: BoxProps;
   isActive?: boolean;
+  onClick: () => void
 }
-export const ButtonStyle = ({ text, props, isActive }: Props): ReactElement => {
+export const ButtonStyle = ({ text, props, isActive, onClick }: Props): ReactElement => {
 	return (
 		<ButtonBase
 			{...props}
+			onClick={onClick}
 			style={{
 				width: '250px',
 				height: '48px',
