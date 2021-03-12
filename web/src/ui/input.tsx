@@ -4,10 +4,11 @@ import React, { ReactElement, useState } from 'react'
 interface Props {
     label?: string
 	style?: React.CSSProperties
+	type?: 'password' | 'email'
 	onChangeText?: (text: string) => void
 }
 
-export const Input = ({label, style, onChangeText}: Props): ReactElement => {
+export const Input = ({label, style, type, onChangeText}: Props): ReactElement => {
 	const [isFocused, setIsFocused] = useState(false)
     
 	return (
@@ -17,12 +18,14 @@ export const Input = ({label, style, onChangeText}: Props): ReactElement => {
 			id="filled-basic"
 			label={label}
 			variant="outlined"
+			required
 			autoCapitalize="none"
 			onChange={(event) => onChangeText && onChangeText(event.target.value)}
 			autoComplete="none"
 			color={isFocused ? 'secondary' : 'primary'}
 			size="medium"
 			style={{ width: '340px', color: 'white', ...style }}
+			type={type}
 			InputProps={{
 				style: {
 					color: 'white',

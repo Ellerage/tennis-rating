@@ -6,6 +6,7 @@ import { useHistory } from 'react-router'
 import { Routes } from '../common/routes'
 import { Input } from '../ui/input'
 import { getUrlApi } from '../common/get-url'
+import { DataEncrypted } from '../ui/data-encrypted'
 
 
 export const RegisterPage = (): ReactElement => {
@@ -19,7 +20,6 @@ export const RegisterPage = (): ReactElement => {
 
 
 	const handleSignupAsync = async () => {
-
 		if (password !== passwordConf) {
 			alert('Passwords are not the same')
 		}
@@ -65,23 +65,24 @@ export const RegisterPage = (): ReactElement => {
 						<Box display="flex" width="710px" flexWrap="wrap">
 							<Box margin="10px">
 								<Input label="First name" onChangeText={setFirstName} />
-								<Input label="E-mail" style={{marginLeft: 10}} onChangeText={setEmail}/>
+								<Input label="E-mail" style={{marginLeft: 10}} onChangeText={setEmail} type="email" />
 							</Box>
 							<Box margin="10px">
 								<Input label="Second name" onChangeText={setSecondName}/>
-								<Input label="Password" style={{marginLeft: 10}} onChangeText={setPassword} />
+								<Input label="Password" style={{marginLeft: 10}} onChangeText={setPassword} type="password" />
 							</Box>
 							<Box margin="10px">
 								<Input label="Aka" onChangeText={setUsername} />
-								<Input label="Password confirmation" style={{marginLeft: 10}} onChangeText={setPasswordConf} />
+								<Input label="Password confirmation" style={{marginLeft: 10}} onChangeText={setPasswordConf} type="password" />
 							</Box>
 							<Box
 								width="700px"
 								display="flex"
-								justifyContent="flex-end"
+								justifyContent="space-between"
 								marginTop="20px"
 							>
-								<Button variant="contained" color="secondary" size="large" onClick={handleSignupAsync}>
+								<DataEncrypted />
+								<Button variant="contained" color="secondary" type="submit" size="large" onClick={handleSignupAsync}>
                 Sign Up
 								</Button>
 							</Box>

@@ -9,6 +9,7 @@ import { useHistory } from 'react-router'
 import { Routes } from '../common/routes'
 import { Input } from '../ui/input'
 import { getUrlApi } from '../common/get-url'
+import { DataEncrypted } from '../ui/data-encrypted'
 export const LoginPage = (): ReactElement => {
 	const history = useHistory()
 	const [username, setUsername] = useState('')
@@ -50,21 +51,23 @@ export const LoginPage = (): ReactElement => {
 					<ButtonStyle text="Sign in" onClick={() => history.push(Routes.LOGIN)} isActive />
 					<ButtonStyle text="Sign up" onClick={() => history.push(Routes.SIGNUP)} />
 				</Box>
-				{/* <form noValidate autoComplete="off"> */}
 				<Box flexWrap="wrap" width="340px" marginLeft="50px" >
-					<Box height="36px" margin="30px" >
-						<Input label="Username" onChangeText={setUsername} />
-					</Box>
+					<form>
+						<Box height="36px" margin="30px" >
+							<Input label="Username" onChangeText={setUsername} />
+						</Box>
 
-					<Box height="36px" margin="30px" marginTop="50px" >
-						<Input label="Password" onChangeText={setPassword} />
-					</Box>
+						<Box height="36px" margin="30px" marginTop="50px" >
+							<Input label="Password" onChangeText={setPassword} type="password" />
+						</Box>
 
-					<Box display="flex" justifyContent="flex-end" marginRight="-30px" marginTop="80px">
-						<Button variant="contained" color="secondary" size="large" onClick={handleLoginAsync}>
+						<Box display="flex" justifyContent="space-between" marginRight="-30px" marginTop="80px">
+							<DataEncrypted />
+							<Button variant="contained" color="secondary" type="submit" size="large" onClick={handleLoginAsync}>
 							LOG IN
-						</Button>
-					</Box>
+							</Button>
+						</Box>
+					</form>
 				</Box>
 			</Box>
 		</Box>
