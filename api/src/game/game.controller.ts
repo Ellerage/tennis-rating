@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UseGuards, ValidationPipe } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Param, Post, UseGuards, ValidationPipe } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CurrentUser } from 'src/user/user-decorator';
 import { User } from 'src/user/user.entity';
@@ -19,7 +19,17 @@ export class GameController {
         @CurrentUser() user: User,
         @Body(ValidationPipe) createGameDto: CreateGameDto,
     ) {
-        return this.gameService.createGame({ ...createGameDto, player: user })
+        const { winnerId, loserId } = createGameDto
+
+        if (user.id !== winnerId && user.id !== loserId) {
+            throw new BadRequestException("You must select yourself")
+        }
+
+        if (winnerId === loserId) {
+            throw new BadRequestException("You cannot challenge yourself")
+        }
+
+        return this.gameService.createGame(createGameDto)
     }
 
     @Get()

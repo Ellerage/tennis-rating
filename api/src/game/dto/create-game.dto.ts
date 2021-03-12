@@ -1,3 +1,4 @@
 export class CreateGameDto {
-    opponentId: string
+    winnerId: string
+    loserId: string
 }

@@ -39,21 +39,14 @@ export class UserRepository extends Repository<User> {
     }
   }
 
-  async updateRating(playerId: string, opponentId: string, playerWin: boolean) {
-    const player = await this.findOne(playerId)
-    const opponent = await this.findOne(opponentId)
+  async updateRating(winner: User, loser: User, playerWin: boolean) {
+    const result = EloRating.calculate(winner.rating, loser.rating, playerWin)
 
-    if (!player || !opponent) {
-      throw new NotFoundException("Not found")
-    }
+    winner.rating = result.playerRating
+    loser.rating = result.opponentRating
 
-    const result = EloRating.calculate(player.rating, opponent.rating, playerWin)
-
-    player.rating = result.playerRating
-    opponent.rating = result.opponentRating
-
-    await player.save()
-    await opponent.save()
+    await winner.save()
+    await loser.save()
   }
 
   async validateUserPassword(authCredentialsDto: UserCredentialsDto) {
