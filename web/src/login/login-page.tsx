@@ -52,7 +52,7 @@ export const LoginPage = (): ReactElement => {
 					<ButtonStyle text="Sign up" onClick={() => history.push(Routes.SIGNUP)} />
 				</Box>
 				<Box flexWrap="wrap" width="340px" marginLeft="50px" >
-					<form>
+					<form onSubmit={(event) => event.preventDefault()}>
 						<Box height="36px" margin="30px" >
 							<Input label="Username" onChangeText={setUsername} />
 						</Box>

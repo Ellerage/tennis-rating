@@ -60,7 +60,7 @@ export const RegisterPage = (): ReactElement => {
 					<ButtonStyle text="Sign in" onClick={() => history.push(Routes.LOGIN)} />
 					<ButtonStyle text="Sign up" isActive={true} onClick={() => history.push(Routes.SIGNUP)} />
 				</Box>
-				<form>
+				<form onSubmit={event => event.preventDefault()}>
 					<Box display="flex" justifyContent="center" marginTop="20px">
 						<Box display="flex" width="710px" flexWrap="wrap">
 							<Box margin="10px">
