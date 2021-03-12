@@ -11,6 +11,8 @@ import { Box } from '@material-ui/core'
 import avatar from '../ui/icons/avatar.png'
 import { useHistory } from 'react-router'
 import { Routes } from '../common/routes'
+import { getTierName } from '../common/get-tier-name'
+import { getTierColor } from '../common/get-tier-color'
 
 interface Props {
 	users: any
@@ -46,16 +48,18 @@ export const RankingTable = ({users}: Props): ReactElement => {
 				<TableHead>
 					<TableRow>
 						<StyledTableCell></StyledTableCell>
-						<StyledTableCell>Name</StyledTableCell>
-						
-						<StyledTableCell align="right">Aka</StyledTableCell>
-						<StyledTableCell align="right">Pts</StyledTableCell>
+						<StyledTableCell>PLACE</StyledTableCell>
+						<StyledTableCell>TIER</StyledTableCell>
+						<StyledTableCell>NAME</StyledTableCell>
+				
+						<StyledTableCell>NICKNAME</StyledTableCell>
+						<StyledTableCell>SCORE</StyledTableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{users.map((user: any) => (
+					{users.map((user: any, index: number) => (
 						<TableRow key={user.id}>
-							<StyledTableCell align="left" >
+							<StyledTableCell align="left">
 								<Box
 									borderRadius="50px"
 									width="50px"
@@ -69,12 +73,18 @@ export const RankingTable = ({users}: Props): ReactElement => {
 									<StyledImg src={avatar} alt="avatar" />
 								</Box>
 							</StyledTableCell>
-							<StyledTableCell component="th" scope="row">
+							<StyledTableCell style={{fontSize: '18px'}}>
+								{index+1}
+							</StyledTableCell>
+							<StyledTableCell style={{color: getTierColor(index+1), fontWeight: 'bold', fontSize: '18px'}}>
+								{getTierName(index+1)}
+							</StyledTableCell>
+							<StyledTableCell component="th" scope="row" style={{fontSize: '18px'}}>
 								{`${user.firstName} ${user.lastName}`}
 							</StyledTableCell>
 
-							<StyledTableCell align="right">{user.username}</StyledTableCell>
-							<StyledTableCell align="right">{user.rating}</StyledTableCell>
+							<StyledTableCell style={{fontSize: '18px'}}>{user.username}</StyledTableCell>
+							<StyledTableCell style={{color: getTierColor(index+1), fontWeight: 'bold', fontSize: '18px'}}>{`${user.rating} pts`}</StyledTableCell>
 						</TableRow>
 					))}
 				</TableBody>
