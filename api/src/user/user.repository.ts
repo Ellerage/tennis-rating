@@ -40,7 +40,7 @@ export class UserRepository extends Repository<User> {
   }
 
   async updateRating(winner: User, loser: User, playerWin: boolean) {
-    const result = EloRating.calculate(winner.rating, loser.rating, playerWin)
+    const result = EloRating.calculate(winner.rating, loser.rating, playerWin, 100)
 
     winner.rating = result.playerRating
     loser.rating = result.opponentRating

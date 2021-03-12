@@ -13,8 +13,11 @@ import {
 	Switch,
 	Route,
 } from 'react-router-dom'
+import { LoadingScreen } from './loading/loading-screen'
 
 export const App = (): ReactElement => {
+	
+
 	const theme = createMuiTheme({
 		palette: {
 			primary: {
@@ -30,7 +33,7 @@ export const App = (): ReactElement => {
 			<Router>
 				<div className="App">
 					<Switch>
-						<Route path={'/'} exact component={LoginPage} />
+						<Route path={'/'} exact component={LoadingScreen} />
 						<Route path={'/login'} exact component={LoginPage}/>
 						<Route path={'/ranking'} exact component={Ranking}/>
 						<Route path={'/signup'} exact component={RegisterPage}/>
