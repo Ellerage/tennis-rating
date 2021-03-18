@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Param, Post, UseGuards, ValidationPipe } from '@nestjs/common'
+import { Body, Controller, Get, Param, Post, Query, UseGuards, ValidationPipe } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
 import { FilterUserDto } from './dto/filter-user.dto'
 import { ResultSignUpDto } from './dto/result-signup.dto'
+import { UpdateUserDto } from './dto/update-user.dto'
 import { UserCredentialsDto } from './dto/user-credentials.dto'
 import { CurrentUser } from './user-decorator'
 import { User } from './user.entity'
@@ -30,6 +31,11 @@ export class UserController {
 	@UseGuards(AuthGuard("jwt"))
 	getMe(@CurrentUser() user: User): User {
 		return user
+	}
+
+	@Post("/update/:id")
+	updateUser(@Param("id") id: string, @Query() userFields: UpdateUserDto) {
+		return this.userService.updateUser(id, userFields)
 	}
 
 	@Get("/:id")

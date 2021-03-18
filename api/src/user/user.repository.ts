@@ -10,6 +10,7 @@ import { genSalt, hash } from 'bcryptjs';
 import { ResultSignUpDto } from './dto/result-signup.dto';
 import { uuid } from 'uuidv4';
 import { FilterUserDto } from './dto/filter-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 var EloRating = require('elo-rating');
 
 @EntityRepository(User)
@@ -88,6 +89,14 @@ export class UserRepository extends Repository<User> {
     delete user.salt
 
     return user
+  }
+
+  async updateUser(id: string, newFields: UpdateUserDto): Promise<User> {
+    const user = await this.getUserById(id)
+
+    const updatedUser = Object.assign(user, newFields)
+
+    return await updatedUser.save()
   }
 
   // TODO: Улучшить сущьность и убрать селект поля
