@@ -4,18 +4,21 @@ import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import { makeStyles } from '@material-ui/core/styles'
 import { getUrlApi } from '../common/get-url'
-
-
+import { NewGameSvg }from './icons/new-game'
+import Snackbar from '@material-ui/core/Snackbar'
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert'
 interface Props {
 	users: any
 	getUsersAsync: () => void
 }
 
+function Alert(props: AlertProps) {
+	return <MuiAlert elevation={6} variant="filled" {...props} />
+}
+  
 const useStyles = makeStyles((theme) => ({
 	formControl: {
-		margin: theme.spacing(1),
-		minWidth: 300,
-		
+		minWidth: 255,
 	},
 	selectEmpty: {
 		marginTop: theme.spacing(2),
@@ -27,22 +30,26 @@ export const NewGame = ({users, getUsersAsync}: Props): ReactElement => {
 	const classes = useStyles()
 	const [winnerId, setWinnerId] = useState<string | undefined | unknown>('')
 	const [loserId, setLoserId] = useState<string | undefined | unknown>('')
-	
+	const [isOpenAlert, setIsOpenAlert] = useState(false)
 	const handleCreateGameAsync = async () => {
-		const jwtToken = localStorage.getItem('token')
+		try {
+			const jwtToken = localStorage.getItem('token')
 
-		const response = await fetch(getUrlApi('game/create'), {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': `Bearer ${jwtToken}`
-			},
-			body: JSON.stringify({winnerId, loserId})
-		})
+			const response = await fetch(getUrlApi('game/create'), {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${jwtToken}`
+				},
+				body: JSON.stringify({winnerId, loserId})
+			})
 
-		await response.json()
+			await response.json()
 
-		getUsersAsync()
+			getUsersAsync()
+			setIsOpenAlert(true)
+		// eslint-disable-next-line no-empty
+		} catch {}
 	}
 
 	return (
@@ -53,7 +60,7 @@ export const NewGame = ({users, getUsersAsync}: Props): ReactElement => {
 				color="white"
 				marginTop="20px"
 			>
-        New Game
+				<NewGameSvg />
 			</Box>
 			<Box
 				display="flex"
@@ -62,39 +69,52 @@ export const NewGame = ({users, getUsersAsync}: Props): ReactElement => {
 				alignItems="center"
 				marginTop="20px"
 			>
-				<FormControl variant="outlined" className={classes.formControl} style={{border: '2px solid white', borderRadius: '4px'}}>
-					<InputLabel id="demo-simple-select-outlined-label" style={{backgroundColor: '#323232', color: 'white', paddingLeft: '5px', paddingRight: '7px'}}>Winner</InputLabel>
-					<Select
-						labelId="demo-simple-select-outlined-label"
-						id="demo-simple-select-outlined"
-						value={winnerId}
-						style={{color: 'white'}}
-						onChange={(event) => setWinnerId(event.target.value) }
-					>
-						{users.map((user: any) => {
-							return <MenuItem value={user.id} key={user.id}>{user.username}</MenuItem>
-						})}
-					</Select>
-				</FormControl>
-			
-				<FormControl variant="outlined" className={classes.formControl} style={{border: '2px solid white', borderRadius: '4px'}}>
-					<InputLabel id="demo-simple-select-outlined-label" style={{backgroundColor: '#323232', color: 'white', paddingLeft: '5px', paddingRight: '7px'}}>Loser</InputLabel>
-					<Select
-						labelId="demo-simple-select-outlined-label"
-						id="demo-simple-select-outlined"
-						value={loserId}
-						style={{color: 'white'}}
-						onChange={(event) => setLoserId(event.target.value) }
-					>
-						{users.map((user: any) => {
-							return <MenuItem value={user.id} key={user.id}>{user.username}</MenuItem>
-						})}
-					</Select>
-				</FormControl>
+				<Box display="flex" alignItems="center">
+					<Box marginRight="15px" fontWeight="bold">
+					PREDATOR
+					</Box>
+					<FormControl variant="outlined" className={classes.formControl} style={{border: '2px solid white', borderRadius: '4px'}}>
+						<InputLabel id="demo-simple-select-outlined-label" style={{backgroundColor: '#323232', color: 'white', paddingLeft: '5px', paddingRight: '7px'}}>Winner</InputLabel>
+						<Select
+							labelId="demo-simple-select-outlined-label"
+							id="demo-simple-select-outlined"
+							value={winnerId}
+							style={{color: 'white'}}
+							onChange={(event) => setWinnerId(event.target.value) }
+						>
+							{users.map((user: any) => {
+								return <MenuItem value={user.id} key={user.id}>{`${user.firstName} ${user.lastName}`}</MenuItem>
+							})}
+						</Select>
+					</FormControl>
+				</Box>
+				<Box display="flex" alignItems="center">
+					<Box marginRight="15px" fontWeight="bold">PREY</Box>
+					<FormControl variant="outlined" className={classes.formControl} style={{border: '2px solid white', borderRadius: '4px'}}>
+						<InputLabel id="demo-simple-select-outlined-label" style={{backgroundColor: '#323232', color: 'white', paddingLeft: '5px', paddingRight: '7px'}}>Loser</InputLabel>
+						<Select
+							labelId="demo-simple-select-outlined-label"
+							id="demo-simple-select-outlined"
+							value={loserId}
+							style={{color: 'white'}}
+							onChange={(event) => setLoserId(event.target.value) }
+						>
+							{users.map((user: any) => {
+								return <MenuItem value={user.id} key={user.id}>{`${user.firstName} ${user.lastName}`}</MenuItem>
+							})}
+						</Select>
+					</FormControl>
+				</Box>
 
-				<Button variant="contained" color="secondary" size="large" onClick={handleCreateGameAsync}>
+				<Button variant="contained" color="secondary" size="large" onClick={handleCreateGameAsync} style={{height: '60px', fontWeight: 'bold'}} >
 					SUBMIT
 				</Button>
+
+				<Snackbar open={isOpenAlert} autoHideDuration={2000}  anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} onClose={() => setIsOpenAlert(false)}>
+					<Alert severity="success" onClose={() => setIsOpenAlert(false)} >
+						THE GAME WAS REGISTERED!
+					</Alert>
+				</Snackbar>
 			</Box>
 		</Box>
 	)

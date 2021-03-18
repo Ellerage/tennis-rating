@@ -15,9 +15,9 @@ import {
 } from 'react-router-dom'
 import { LoadingScreen } from './loading/loading-screen'
 
-export const App = (): ReactElement => {
-	
 
+
+export const App = (): ReactElement => {
 	const theme = createMuiTheme({
 		palette: {
 			primary: {

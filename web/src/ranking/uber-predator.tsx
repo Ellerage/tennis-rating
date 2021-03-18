@@ -2,7 +2,6 @@ import React, { ReactElement } from 'react'
 import { Box } from '@material-ui/core'
 import styled from 'styled-components'
 import img from '../ui/icons/UBER-PREDATOR.png'
-import avatar from '../ui/icons/avatar.png'
 
 interface Props {
 	user: any
@@ -19,33 +18,36 @@ const UberBackground = styled(Box)`
   margin-bottom: 10px;
 `
 
-const StyledAvatar = styled.img`
-  border-radius: 50%;
-  width: 100px;
-  height: 100px;
+const StyledText = styled(Box)`
+	font-weight: bold;
+	margin-right: 10px;
+	font-size: 30px;
 `
+
 export const UberPredator = ({user}: Props): ReactElement => {
 	return (
 		<Box display="flex" justifyContent="center">
 			<UberBackground>
 				<Box
 					display="flex"
-					marginLeft="10px"
+					marginLeft="30px"
 					height="150px"
 					alignItems="center"
 				>
-					<StyledAvatar src={avatar} alt="asd" />
 					<Box marginLeft="10px">
 						<Box display="flex" fontSize="24px" color="white">
-							{`${user.firstName} ${user.lastName}`}
+							<StyledText>{user.firstName}</StyledText>
+							<StyledText color="#F51010">{user.username}</StyledText>
+							<StyledText>{user.lastName}</StyledText>
 						</Box>
 						<Box
 							display="flex"
 							fontWeight="700"
+							marginTop="10px"
 							color="#F51010"
 							fontSize="24px"
 						>
-							{user.rating}
+							{`${user.rating} pts`}
 						</Box>
 					</Box>
 				</Box>

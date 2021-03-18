@@ -26,17 +26,6 @@ export const Ranking = (): ReactElement => {
 	return (
 		<Box>
 			<Header />
-			<Box
-				display="flex"
-				height="65px"
-				bgcolor="#323232"
-				margin="10px 0"
-				color="white"
-				alignItems="center"
-			>
-				UBER RANKING
-			</Box>
-
 			{users[0] && <UberPredator user={users[0]} />}
 
 			<Box display="flex" justifyContent="center" marginBottom="10px">

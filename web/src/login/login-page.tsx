@@ -54,7 +54,7 @@ export const LoginPage = (): ReactElement => {
 				<Box flexWrap="wrap" width="340px" marginLeft="50px" >
 					<form onSubmit={(event) => event.preventDefault()}>
 						<Box height="36px" margin="30px" >
-							<Input label="Username" onChangeText={setUsername} />
+							<Input label="Nickname" onChangeText={setUsername} />
 						</Box>
 
 						<Box height="36px" margin="30px" marginTop="50px" >

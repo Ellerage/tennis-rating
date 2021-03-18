@@ -47,11 +47,9 @@ export const RankingTable = ({users}: Props): ReactElement => {
 			<Table className={classes.table} aria-label="simple table">
 				<TableHead>
 					<TableRow>
-						<StyledTableCell></StyledTableCell>
 						<StyledTableCell>PLACE</StyledTableCell>
 						<StyledTableCell>TIER</StyledTableCell>
 						<StyledTableCell>NAME</StyledTableCell>
-				
 						<StyledTableCell>NICKNAME</StyledTableCell>
 						<StyledTableCell>SCORE</StyledTableCell>
 					</TableRow>
@@ -59,32 +57,18 @@ export const RankingTable = ({users}: Props): ReactElement => {
 				<TableBody>
 					{users.map((user: any, index: number) => (
 						<TableRow key={user.id}>
-							<StyledTableCell align="left">
-								<Box
-									borderRadius="50px"
-									width="50px"
-									height="50px"
-									display="flex"
-									justifyContent="center"
-									alignItems="center"
-									style={{cursor: 'pointer'}}
-									onClick={() => history.push(Routes.PROFILE)}
-								>
-									<StyledImg src={avatar} alt="avatar" />
-								</Box>
-							</StyledTableCell>
-							<StyledTableCell style={{fontSize: '18px'}}>
+							<StyledTableCell style={{fontSize: '18px'}} align="center">
 								{index+1}
 							</StyledTableCell>
-							<StyledTableCell style={{color: getTierColor(index+1), fontWeight: 'bold', fontSize: '18px'}}>
-								{getTierName(index+1)}
+							<StyledTableCell style={{color: getTierColor(index+1, users.length === index+1), fontWeight: 'bold', fontSize: '18px'}}>
+								{getTierName(index+1, users.length === index+1)}
 							</StyledTableCell>
 							<StyledTableCell component="th" scope="row" style={{fontSize: '18px'}}>
 								{`${user.firstName} ${user.lastName}`}
 							</StyledTableCell>
 
 							<StyledTableCell style={{fontSize: '18px'}}>{user.username}</StyledTableCell>
-							<StyledTableCell style={{color: getTierColor(index+1), fontWeight: 'bold', fontSize: '18px'}}>{`${user.rating} pts`}</StyledTableCell>
+							<StyledTableCell style={{color: getTierColor(index+1, users.length === index+1), fontWeight: 'bold', fontSize: '18px'}}>{`${user.rating} pts`}</StyledTableCell>
 						</TableRow>
 					))}
 				</TableBody>

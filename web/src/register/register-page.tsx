@@ -46,7 +46,7 @@ export const RegisterPage = (): ReactElement => {
 			justifyContent="center"
 			alignItems="center"
 		>
-			<Box height="635px" width="790px" borderRadius="4px" bgcolor="#323232">
+			<Box height="550px" width="790px" borderRadius="4px" bgcolor="#323232">
 				<Box marginTop="30px">
 					<Header />
 				</Box>
@@ -65,15 +65,14 @@ export const RegisterPage = (): ReactElement => {
 						<Box display="flex" width="710px" flexWrap="wrap">
 							<Box margin="10px">
 								<Input label="First name" onChangeText={setFirstName} />
-								<Input label="E-mail" style={{marginLeft: 10}} onChangeText={setEmail} type="email" />
+								<Input label="Nickname" onChangeText={setUsername} style={{marginLeft: 10}}/>
 							</Box>
 							<Box margin="10px">
 								<Input label="Second name" onChangeText={setSecondName}/>
 								<Input label="Password" style={{marginLeft: 10}} onChangeText={setPassword} type="password" />
 							</Box>
-							<Box margin="10px">
-								<Input label="Aka" onChangeText={setUsername} />
-								<Input label="Password confirmation" style={{marginLeft: 10}} onChangeText={setPasswordConf} type="password" />
+							<Box margin="10px" marginLeft="auto">
+								<Input label="Password confirmation" onChangeText={setPasswordConf} type="password" />
 							</Box>
 							<Box
 								width="700px"
