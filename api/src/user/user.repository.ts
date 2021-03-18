@@ -11,6 +11,7 @@ import { ResultSignUpDto } from './dto/result-signup.dto';
 import { uuid } from 'uuidv4';
 import { FilterUserDto } from './dto/filter-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 var EloRating = require('elo-rating');
 
 @EntityRepository(User)
@@ -97,6 +98,16 @@ export class UserRepository extends Repository<User> {
     const updatedUser = Object.assign(user, newFields)
 
     return await updatedUser.save()
+  }
+
+  async resetPassword(passwordDto: ResetPasswordDto) {
+    const user = await this.getUserById(passwordDto.userId)
+
+
+    user.salt = await genSalt();
+    user.password = await hash(passwordDto.password, user.salt);
+
+    await user.save()
   }
 
   // TODO: Улучшить сущьность и убрать селект поля

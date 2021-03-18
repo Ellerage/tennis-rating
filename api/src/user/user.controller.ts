@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Param, Post, Query, UseGuards, ValidationPipe } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
 import { FilterUserDto } from './dto/filter-user.dto'
+import { ResetPasswordDto } from './dto/reset-password.dto'
 import { ResultSignUpDto } from './dto/result-signup.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { UserCredentialsDto } from './dto/user-credentials.dto'
@@ -41,5 +42,10 @@ export class UserController {
 	@Get("/:id")
 	getUserById(@Param("id") id: string): Promise<User> {
 		return this.userService.getUserById(id)
+	}
+
+	@Post("/reset")
+	resetPassword(@Body() passwordDto: ResetPasswordDto) {
+		this.userService.resetPassword(passwordDto)
 	}
 }

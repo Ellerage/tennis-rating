@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FilterUserDto } from './dto/filter-user.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 import { ResultSignUpDto } from './dto/result-signup.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserCredentialsDto } from './dto/user-credentials.dto';
@@ -43,5 +44,9 @@ export class UserService {
 
   updateUser(id: string, fieldsUser: UpdateUserDto): Promise<User> {
     return this.userRepository.updateUser(id, fieldsUser)
+  }
+
+  resetPassword(passwordDto: ResetPasswordDto) {
+    return this.userRepository.resetPassword(passwordDto)
   }
 }
