@@ -41,7 +41,6 @@ export const RankingTable = ({users}: Props): ReactElement => {
 	
 	
 	const classes = useStyles()
-	const history = useHistory()
 	return (
 		<Box display="flex" justifyContent="center">
 			<Table className={classes.table} aria-label="simple table">
@@ -63,11 +62,11 @@ export const RankingTable = ({users}: Props): ReactElement => {
 							<StyledTableCell style={{color: getTierColor(index+1, users.length === index+1), fontWeight: 'bold', fontSize: '18px'}}>
 								{getTierName(index+1, users.length === index+1)}
 							</StyledTableCell>
-							<StyledTableCell component="th" scope="row" style={{fontSize: '18px'}}>
+							<StyledTableCell component="th" scope="row" style={{fontSize: '18px', maxWidth: '200px'}}>
 								{`${user.firstName} ${user.lastName}`}
 							</StyledTableCell>
 
-							<StyledTableCell style={{fontSize: '18px'}}>{user.username}</StyledTableCell>
+							<StyledTableCell style={{fontSize: '18px', maxWidth: '200px'}}>{user.username}</StyledTableCell>
 							<StyledTableCell style={{color: getTierColor(index+1, users.length === index+1), fontWeight: 'bold', fontSize: '18px'}}>{`${user.rating} pts`}</StyledTableCell>
 						</TableRow>
 					))}
