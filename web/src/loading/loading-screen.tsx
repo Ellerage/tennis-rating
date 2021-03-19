@@ -17,7 +17,6 @@ export const LoadingScreen = (): ReactElement => {
 					}
 				})
 				const result = await response.json()
-				console.log(result)
 
 				if (result.statusCode === 401) {
 					history.push(Routes.LOGIN)
