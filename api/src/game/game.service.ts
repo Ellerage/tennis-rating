@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { User } from 'src/user/user.entity';
 import { UserRepository } from 'src/user/user.repository';
 import { CreateGameDto } from './dto/create-game.dto';
@@ -17,6 +17,10 @@ export class GameService {
 
         const winnerUser = await this.userRepository.findOne(winnerId)
         const loserUser = await this.userRepository.findOne(loserId)
+
+        if (winnerUser.rating - loserUser.rating >= 400) {
+            throw new BadRequestException("Ne farmi ovoshey")
+        }
 
         const game = await this.gameRepository.createGame({ players: [winnerUser, loserUser] })
 
