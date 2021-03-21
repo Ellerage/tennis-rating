@@ -68,7 +68,7 @@ export const RankingTable = ({users}: Props): ReactElement => {
 						const losingRating = EloRating.calculate(myRating, user.rating, false, 100).playerRating
 
 						return (
-							<Tooltip key={user.id} title={`Winning: ${winningRating} Losing: ${losingRating}`} placement="left" onClick={() => history.push(`${Routes.PROFILE}/${user.id}`, {
+							<Tooltip key={user.id} title={`Winning: ${winningRating} Losing: ${losingRating}`} placement="right" onClick={() => history.push(`${Routes.PROFILE}/${user.id}`, {
 								userId: user.id
 							})}>
 								<TableRow style={{position: 'relative', cursor: 'pointer'}}>
