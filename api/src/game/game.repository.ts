@@ -1,6 +1,8 @@
 import { NotFoundException } from '@nestjs/common';
+import { isArray } from 'class-validator';
 import { User } from 'src/user/user.entity';
 import { Repository, EntityRepository } from 'typeorm';
+import { ConfirmGameDto } from './dto/confirm-game.dto';
 
 import { Game } from './game.entity';
 
@@ -24,10 +26,25 @@ export class GameRepository extends Repository<Game> {
 
         const games = await query.getMany()
 
-        return games.filter((game) => {
-            return game.players.find((player) => player.id === userId)
-        })
+        return games.filter((game) =>
+            !!game.players.find((player) => player.id === userId)
+        )
     }
+
+    async getUnconfirmedGames(userId: string) {
+        const query = this.createQueryBuilder("game")
+            .leftJoinAndSelect("game.players", "user")
+            .leftJoinAndSelect("game.winner", "winner")
+            .where("game.isConfirmed=false")
+            .orderBy("created_at", "DESC")
+
+        const games = await query.getMany()
+
+        return games.filter((game) =>
+            !!game.players.find((player) => player.id === userId)
+        )
+    }
+
 
     async getGameById(id: string) {
         const query = this.createQueryBuilder("game")
@@ -43,6 +60,7 @@ export class GameRepository extends Repository<Game> {
 
         return game
     }
+
 
     async selectWinner(selectWinner: { winnerUser: User, gameId: string }) {
         const { winnerUser, gameId } = selectWinner
@@ -70,5 +88,21 @@ export class GameRepository extends Repository<Game> {
             winRate: Math.floor((winAmount / finishedGames.length) * 100),
             games: myGames
         }
+    }
+
+    async confirmGame(confirmGameDto: ConfirmGameDto) {
+        const query = this.createQueryBuilder("game")
+            .where("game.isConfirmed=false")
+        // .andWhere("game.id IN (:...gamesIds)", { gamesIds: confirmGameDto.gameIds })
+
+
+
+        const games = await query.getMany()
+        games.forEach(async (game) => {
+            game.isConfirmed = true
+            await game.save()
+        })
+
+        return { status: "OK" }
     }
 }

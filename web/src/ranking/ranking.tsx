@@ -7,9 +7,16 @@ import { UberPredator } from './uber-predator'
 import { getUrlApi } from '../common/get-url'
 import { Loader } from '../ui/loader'
 import { User } from '../common/types'
+import { ModalConfirm } from './ui/modal'
+import { useHistory } from 'react-router'
+import { Routes } from '../common/routes'
 export const Ranking = (): ReactElement => {
 	const [users, setUsers] = useState<User[]>([])
 	const [isLoading, setIsLoading] = useState(false)
+	const [isOpenConfirm, setIsOpenConfirm] = useState(false)
+	const [unconfirmedGames, setUnconfirmedGames] = useState([])
+	const history = useHistory()
+	const [me, setMe] = useState<User>({} as User)
 
 	const getUsersAsync = async () => {
 		setIsLoading(true)
@@ -20,8 +27,41 @@ export const Ranking = (): ReactElement => {
 		setIsLoading(false)
 	}
 
+	const getGamesAsync = async () => {
+		const token = localStorage.getItem('token')
+		const response = await fetch(getUrlApi('game'), {
+			headers: {
+				'Authorization': `Bearer ${token}`
+			}
+		})
+		const games = await response.json()
+
+		if (response.ok) {
+			setIsOpenConfirm(games.length > 0)
+			setUnconfirmedGames(games)
+		} else {
+			localStorage.removeItem('token')
+			history.push(Routes.LOGIN)
+		}
+		
+	}
+
+	const getMeAsync = async () => {
+		const token = localStorage.getItem('token')
+		const response = await fetch(getUrlApi('user/me'), {
+			headers: {
+				'Authorization': `Bearer ${token}`
+			}
+		})
+		const meUser = await response.json()
+		setMe(meUser)
+	}
+
 	useEffect(() => {
 		getUsersAsync()
+		getGamesAsync()
+		getMeAsync()
+		
 	}, [])
 	
 	return (
@@ -34,6 +74,8 @@ export const Ranking = (): ReactElement => {
 			</Box>
 			
 			{isLoading ? <Loader /> : <RankingTable users={users} />}
+
+			<ModalConfirm isOpen={isOpenConfirm} onClose={() => setIsOpenConfirm(false)} games={unconfirmedGames} meUser={me} />
 		</Box>
 	)
 }

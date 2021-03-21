@@ -29,7 +29,7 @@ const StyledTableCell = styled(TableCell)`
   border-bottom: 1px solid #414141;
 `
 
-interface Game {
+export interface Game {
 	id: string
 	created_at: string
 	ratingChange: number

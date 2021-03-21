@@ -1,6 +1,7 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { User } from 'src/user/user.entity';
 import { UserRepository } from 'src/user/user.repository';
+import { ConfirmGameDto } from './dto/confirm-game.dto';
 import { CreateGameDto } from './dto/create-game.dto';
 import { SelectWinnerDto } from './dto/select-winner.dto';
 import { GameRepository } from './game.repository';
@@ -37,7 +38,7 @@ export class GameService {
     }
 
     async getGames(userId: string) {
-        return this.gameRepository.getGames(userId)
+        return this.gameRepository.getUnconfirmedGames(userId)
     }
 
     async selectWinner(selectWinnerDto: SelectWinnerDto) {
@@ -65,5 +66,9 @@ export class GameService {
         }
 
         return this.gameRepository.getStatsUserById(userId)
+    }
+
+    async confirmGame(confirmGameDto: ConfirmGameDto) {
+        return this.gameRepository.confirmGame(confirmGameDto)
     }
 }

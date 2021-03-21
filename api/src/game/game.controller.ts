@@ -2,6 +2,7 @@ import { BadRequestException, Body, Controller, Get, Param, Post, UseGuards, Val
 import { AuthGuard } from '@nestjs/passport';
 import { CurrentUser } from 'src/user/user-decorator';
 import { User } from 'src/user/user.entity';
+import { ConfirmGameDto } from './dto/confirm-game.dto';
 import { CreateGameDto } from './dto/create-game.dto';
 import { Game } from './game.entity';
 import { GameService } from './game.service';
@@ -33,7 +34,12 @@ export class GameController {
 
     @Get()
     @UseGuards(AuthGuard("jwt"))
-    getGames(@Body() user: User): Promise<Game[]> {
+    getGames(@CurrentUser() user: User): Promise<Game[]> {
         return this.gameService.getGames(user.id)
+    }
+
+    @Post("/confirm")
+    confirmGame(@Body() confirmGameDto: ConfirmGameDto) {
+        return this.gameService.confirmGame(confirmGameDto)
     }
 }
