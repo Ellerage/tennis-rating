@@ -20,6 +20,7 @@ export class GameRepository extends Repository<Game> {
         const query = this.createQueryBuilder("game")
             .leftJoinAndSelect("game.players", "user")
             .leftJoinAndSelect("game.winner", "winner")
+            .orderBy("created_at", "DESC")
 
         const games = await query.getMany()
 
