@@ -1,6 +1,7 @@
 import { Repository, EntityRepository } from 'typeorm';
 import { User } from './user.entity';
 import {
+  BadRequestException,
   ConflictException,
   InternalServerErrorException,
   NotFoundException,
@@ -18,6 +19,10 @@ var EloRating = require('elo-rating');
 export class UserRepository extends Repository<User> {
   async signUp(authCredentialsDto: UserCredentialsDto): Promise<ResultSignUpDto> {
     const { username, password, firstName, lastName } = authCredentialsDto;
+
+    if (!username || !password || !firstName || !lastName) {
+      throw new BadRequestException("Empty fields")
+    }
 
     const user = this.create();
 
