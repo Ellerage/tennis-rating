@@ -16,9 +16,10 @@ import { getMe } from '../common/get-me'
 import Founder from '../ui/icons/founder.png'
 import { useHistory } from 'react-router'
 import { Routes } from '../common/routes'
+import { User } from '../common/types'
 
 interface Props {
-	users: any
+	users: User[]
 }
 
 const useStyles = makeStyles({
@@ -62,7 +63,7 @@ export const RankingTable = ({users}: Props): ReactElement => {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{users.map((user: any, index: number) => {
+					{users.map((user: User, index: number) => {
 						const winningRating = EloRating.calculate(myRating, user.rating, true, 100).playerRating
 						const losingRating = EloRating.calculate(myRating, user.rating, false, 100).playerRating
 

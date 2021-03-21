@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
 import { Box } from '@material-ui/core'
 
-export const Aneki = () => {
+export const Aneki = (): ReactElement => {
 	return (
 		<Box
 			display="flex"

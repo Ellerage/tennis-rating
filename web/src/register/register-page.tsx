@@ -12,7 +12,6 @@ import { DataEncrypted } from '../ui/data-encrypted'
 export const RegisterPage = (): ReactElement => {
 	const history = useHistory()
 	const [firstName, setFirstName] = useState('')
-	const [email, setEmail] = useState('')
 	const [lastName, setSecondName] = useState('')
 	const [password, setPassword] = useState('')
 	const [username, setUsername] = useState('')
@@ -29,7 +28,7 @@ export const RegisterPage = (): ReactElement => {
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify({username, firstName, lastName, email, password})
+			body: JSON.stringify({username, firstName, lastName, password})
 		})
 		const result = await response.json()
 

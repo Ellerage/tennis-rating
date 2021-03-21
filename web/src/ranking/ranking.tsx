@@ -6,15 +6,16 @@ import { RankingTable } from './rangking-table'
 import { UberPredator } from './uber-predator'
 import { getUrlApi } from '../common/get-url'
 import { Loader } from '../ui/loader'
+import { User } from '../common/types'
 export const Ranking = (): ReactElement => {
-	const [users, setUsers] = useState<any>([])
+	const [users, setUsers] = useState<User[]>([])
 	const [isLoading, setIsLoading] = useState(false)
 
 	const getUsersAsync = async () => {
 		setIsLoading(true)
 		const response = await fetch(getUrlApi('user'))
 		const result = await response.json()
-		setUsers(result.sort((a: any, b: any) => b.rating - a.rating))
+		setUsers(result.sort((a: User, b: User) => b.rating - a.rating))
 
 		setIsLoading(false)
 	}

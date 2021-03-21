@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
 import {
 	Box,
 	TableCell,
@@ -65,7 +65,7 @@ const StyledImg = styled.img`
   height: 50px;
   border-radius: 50%;
 `
-export const MatchHistory = () => {
+export const MatchHistory = (): ReactElement => {
 	const classes = useStyles()
 	return (
 		<Box width="100vw" height="100vh">

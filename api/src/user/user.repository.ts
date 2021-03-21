@@ -17,7 +17,7 @@ var EloRating = require('elo-rating');
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
   async signUp(authCredentialsDto: UserCredentialsDto): Promise<ResultSignUpDto> {
-    const { username, password, firstName, lastName, email } = authCredentialsDto;
+    const { username, password, firstName, lastName } = authCredentialsDto;
 
     const user = this.create();
 
@@ -25,7 +25,6 @@ export class UserRepository extends Repository<User> {
     user.username = username;
     user.firstName = firstName
     user.lastName = lastName
-    user.email = email
     user.salt = await genSalt();
     user.password = await hash(password, user.salt);
 
@@ -89,10 +88,7 @@ export class UserRepository extends Repository<User> {
       throw new NotFoundException("Not found")
     }
 
-    delete user.password
-    delete user.salt
-
-    return user
+    return this.removeProtectedFieldsUser(user)
   }
 
   async updateUser(id: string, newFields: UpdateUserDto): Promise<User> {
@@ -100,7 +96,7 @@ export class UserRepository extends Repository<User> {
 
     const updatedUser = Object.assign(user, newFields)
 
-    return await updatedUser.save()
+    return this.removeProtectedFieldsUser(await updatedUser.save())
   }
 
   async resetPassword(passwordDto: ResetPasswordDto) {
@@ -113,12 +109,14 @@ export class UserRepository extends Repository<User> {
     await user.save()
   }
 
-  // TODO: Улучшить сущьность и убрать селект поля
   removeProtectedFileds(users: User[]) {
-    return users.map((user) => {
-      delete user.password
-      delete user.salt
-      return user
-    })
+    return users.map(this.removeProtectedFieldsUser)
+  }
+
+  removeProtectedFieldsUser(user: User) {
+    delete user.password
+    delete user.salt
+
+    return user
   }
 }

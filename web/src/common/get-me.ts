@@ -1,6 +1,7 @@
 import { getUrlApi } from './get-url'
+import { User } from './types'
 
-export const getMe = async () => {
+export const getMe = async (): Promise<User> => {
 	const token = localStorage.getItem('token')
     
 	const response = await fetch(getUrlApi('user/me'), {

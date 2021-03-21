@@ -12,6 +12,7 @@ import styled from 'styled-components'
 import TableContainer from '@material-ui/core/TableContainer'
 import Paper from '@material-ui/core/Paper'
 import { Loader } from '../ui/loader'
+import { User } from '../common/types'
 
 const useStyles = makeStyles({
 	table: {
@@ -32,16 +33,8 @@ interface Game {
 	id: string
 	created_at: string
 	ratingChange: number
-	winner: {
-		id: string
-		firstName: string
-		lastName: string
-	}
-	players: {
-		id: string
-		firstName: string
-		lastName: string
-	}[]
+	winner: User
+	players: User[]
 }
 
 export const Profile = (): ReactElement => {
@@ -50,6 +43,7 @@ export const Profile = (): ReactElement => {
 	const [page, setPage] = useState(0)
 	const [rowsPerPage, setRowsPerPage] = useState(10)
 	const [ratingHistory, setRatingHistory] = useState([{x: 0, y:0}])
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const location: any = useLocation()
 	const userId = location.state.userId
 
@@ -85,11 +79,11 @@ export const Profile = (): ReactElement => {
 	const classes = useStyles()
 
 
-	const handleChangePage = (event: any, newPage: number) => {
+	const handleChangePage = (event: unknown, newPage: number) => {
 		setPage(newPage)
 	}
 
-	const handleChangeRowsPerPage = (event: any) => {
+	const handleChangeRowsPerPage = (event: {target: {value: string}}) => {
 		setRowsPerPage(parseInt(event.target.value, 10))
 		setPage(0)
 	}
@@ -124,7 +118,7 @@ export const Profile = (): ReactElement => {
 					</TableHead>
 					<TableBody>
 						{userStats.games.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((game: Game) => {
-							const loserUser = game.players.find((user: any) => user.id !== game.winner.id)
+							const loserUser = game.players.find((user) => user.id !== game.winner.id)
 							const date = new Date(game.created_at)
 								
 							return (

@@ -20,9 +20,6 @@ export class User extends BaseEntity {
     @Column()
     lastName: string
 
-    @Column()
-    email: string
-
     @OneToMany(() => Game, game => game.winner)
     winnerGames: Game[]
 

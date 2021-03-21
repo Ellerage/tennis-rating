@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { ReactElement, useState } from 'react'
 import { Box, FormControl, InputLabel, Button,  } from '@material-ui/core'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -7,8 +7,10 @@ import { getUrlApi } from '../common/get-url'
 import { NewGameSvg }from './icons/new-game'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert'
+import { User } from '../common/types'
+
 interface Props {
-	users: any
+	users: User[]
 	getUsersAsync: () => void
 }
 
@@ -82,7 +84,7 @@ export const NewGame = ({users, getUsersAsync}: Props): ReactElement => {
 							style={{color: 'white'}}
 							onChange={(event) => setWinnerId(event.target.value) }
 						>
-							{users.map((user: any) => {
+							{users.map((user: User) => {
 								return <MenuItem value={user.id} key={user.id}>{`${user.firstName} ${user.lastName}`}</MenuItem>
 							})}
 						</Select>
@@ -99,7 +101,7 @@ export const NewGame = ({users, getUsersAsync}: Props): ReactElement => {
 							style={{color: 'white'}}
 							onChange={(event) => setLoserId(event.target.value) }
 						>
-							{users.map((user: any) => {
+							{users.map((user: User) => {
 								return <MenuItem value={user.id} key={user.id}>{`${user.firstName} ${user.lastName}`}</MenuItem>
 							})}
 						</Select>
