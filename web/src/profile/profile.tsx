@@ -45,7 +45,7 @@ interface Game {
 }
 
 export const Profile = (): ReactElement => {
-	const [user, setUser] = useState({id: undefined})
+	const [user, setUser] = useState({id: undefined, firstName: '', lastName: '', username: ''})
 	const [userStats, setUserStats] = useState({winRate: undefined, games: []})
 	const [page, setPage] = useState(0)
 	const [rowsPerPage, setRowsPerPage] = useState(10)
@@ -88,7 +88,14 @@ export const Profile = (): ReactElement => {
 	}
 	return (
 		<Box width="100vw" height="100vh" overflow="hidden">
-			<Box color="white" marginY="50px" fontSize="26px" fontWeight="bold">Winrate: {userStats.winRate}%</Box>
+			<Box display="flex" justifyContent="center" marginY="50px" alignItems="center">
+				<Box color="white" fontSize="26px" fontWeight="bold" display="flex" marginRight="70px">
+					<Box>{user.firstName}</Box>
+					<Box color="#F51010" marginX="5px">{user.username}</Box>
+					<Box>{user.lastName}</Box>
+				</Box>
+				<Box color="white"  fontSize="26px" fontWeight="bold">Winrate: {userStats.winRate}%</Box>
+			</Box>
 
 			<TableContainer component={Paper} style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center', backgroundColor: 'rgb(19, 19, 19)', boxShadow: 'none'}}>
 				<Table className={classes.table} aria-label="simple table">
