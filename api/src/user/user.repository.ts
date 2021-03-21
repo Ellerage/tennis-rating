@@ -41,14 +41,17 @@ export class UserRepository extends Repository<User> {
     }
   }
 
-  async updateRating(winner: User, loser: User, playerWin: boolean) {
+  async updateRating(winner: User, loser: User, playerWin: boolean): Promise<number> {
     const result = EloRating.calculate(winner.rating, loser.rating, playerWin, 100)
+    const ratingChange = result.playerRating - winner.rating
 
     winner.rating = result.playerRating
     loser.rating = result.opponentRating
 
     await winner.save()
     await loser.save()
+
+    return ratingChange
   }
 
   async validateUserPassword(authCredentialsDto: UserCredentialsDto) {

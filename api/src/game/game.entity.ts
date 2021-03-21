@@ -15,4 +15,7 @@ export class Game extends BaseEntity {
 
     @Column({ default: new Date() })
     created_at: Date
+
+    @Column({ default: 0 })
+    ratingChange: number
 }

@@ -28,9 +28,10 @@ export class GameService {
             throw new ConflictException("The winner has already been selected")
         }
 
-        await this.userRepository.updateRating(winnerUser, loserUser, true)
+        const ratingChange = await this.userRepository.updateRating(winnerUser, loserUser, true)
 
         game.winner = winnerUser
+        game.ratingChange = ratingChange
 
         return await game.save()
     }
