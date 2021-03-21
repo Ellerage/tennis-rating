@@ -13,6 +13,8 @@ const EloRating = require('elo-rating')
 import { getTierName } from '../common/get-tier-name'
 import { getTierColor } from '../common/get-tier-color'
 import { getMe } from '../common/get-me'
+import Founder from '../ui/icons/founder.png'
+
 interface Props {
 	users: any
 }
@@ -30,7 +32,6 @@ const StyledTableCell = styled(TableCell)`
   color: white;
   border-bottom: 1px solid #414141;
 `
-
 
 export const RankingTable = ({users}: Props): ReactElement => {
 	const classes = useStyles()
@@ -64,19 +65,21 @@ export const RankingTable = ({users}: Props): ReactElement => {
 
 						return (
 							<Tooltip key={user.id} title={`Winning: ${winningRating} Losing: ${losingRating}`} placement="left">
-								<TableRow>
+								<TableRow style={{position: 'relative'}}>
 									<StyledTableCell style={{fontSize: '18px'}} align="center">
 										{index+1}
 									</StyledTableCell>
 									<StyledTableCell style={{color: getTierColor(index+1, users.length === index+1), fontWeight: 'bold', fontSize: '18px'}}>
 										{getTierName(index+1, users.length === index+1)}
 									</StyledTableCell>
-									<StyledTableCell component="th" scope="row" style={{fontSize: '18px', maxWidth: '200px'}}>
+									<StyledTableCell style={{fontSize: '18px', maxWidth: '200px'}}>
 										{`${user.firstName} ${user.lastName}`}
 									</StyledTableCell>
 	
-									<StyledTableCell style={{fontSize: '18px', maxWidth: '200px'}}>{user.username}</StyledTableCell>
-									<StyledTableCell style={{color: getTierColor(index+1, users.length === index+1), fontWeight: 'bold', fontSize: '18px'}}>{`${user.rating} pts`}</StyledTableCell>
+									<StyledTableCell style={{fontSize: '18px', maxWidth: '200px', zIndex: 2, position: 'relative'}}>{user.username}</StyledTableCell>
+									<StyledTableCell style={{color: getTierColor(index+1, users.length === index+1), fontWeight: 'bold', fontSize: '18px', zIndex: 2, position: 'relative'}} >{`${user.rating} pts`}</StyledTableCell>
+
+									<Box style={user.isPremium ? {backgroundImage: `url(${Founder})`, backgroundSize: '320px 56px',  backgroundRepeat: 'no-repeat', position: 'absolute', zIndex: 1, width: '320px', height: '56px', marginLeft: '-340px', opacity: 0.4} : {}}></Box>
 								</TableRow>
 							</Tooltip>
 						)

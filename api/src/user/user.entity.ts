@@ -26,6 +26,9 @@ export class User extends BaseEntity {
     @OneToMany(() => Game, game => game.winner)
     winnerGames: Game[]
 
+    @Column({ default: false })
+    isPremium?: boolean
+
     @Column()
     password: string;
 

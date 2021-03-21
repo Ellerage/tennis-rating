@@ -28,6 +28,7 @@ export const App = (): ReactElement => {
 			},
 		},
 	})
+	
 	return (
 		<ThemeProvider theme={theme}>
 			<Router>
