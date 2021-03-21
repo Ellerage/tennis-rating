@@ -44,3 +44,5 @@ body {
 .MuiSelect-icon {
   color: white !important;
 }
+
+@import "~react-vis/dist/style";

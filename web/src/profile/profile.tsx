@@ -3,7 +3,7 @@ import { Box, makeStyles, TablePagination } from '@material-ui/core'
 import { useLocation } from 'react-router'
 import { getUrlApi } from '../common/get-url'
 import Table from '@material-ui/core/Table'
-
+import {XYPlot, XAxis, YAxis, HorizontalGridLines, LineSeries} from 'react-vis'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
@@ -49,7 +49,7 @@ export const Profile = (): ReactElement => {
 	const [userStats, setUserStats] = useState({winRate: undefined, games: []})
 	const [page, setPage] = useState(0)
 	const [rowsPerPage, setRowsPerPage] = useState(10)
-
+	const [ratingHistory, setRatingHistory] = useState([{x: 0, y:0}])
 	const location: any = useLocation()
 	const userId = location.state.userId
 
@@ -67,6 +67,19 @@ export const Profile = (): ReactElement => {
 
 		init()
 	}, [])
+
+
+	useEffect(() => {
+		const preRating = 1000
+			
+		const historyChange = userStats.games.map((game: Game, index) => {
+			const isWon = user.id === game.winner.id
+			const value = isWon ? preRating + game.ratingChange : preRating - game.ratingChange
+			return {x: index, y: value}
+		})
+
+		setRatingHistory(historyChange)
+	}, [user, userStats])
 
 	const classes = useStyles()
 
@@ -97,7 +110,7 @@ export const Profile = (): ReactElement => {
 				<Box color="white"  fontSize="26px" fontWeight="bold">Winrate: {userStats.winRate}%</Box>
 			</Box>
 
-			<TableContainer component={Paper} style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center', backgroundColor: 'rgb(19, 19, 19)', boxShadow: 'none'}}>
+			<TableContainer component={Paper} style={{display: 'flex', width: '850px', flexWrap: 'wrap', marginLeft: 'auto', marginRight: 'auto', justifyContent: 'center', backgroundColor: 'rgb(19, 19, 19)', boxShadow: 'none'}}>
 				<Table className={classes.table} aria-label="simple table">
 					<TableHead>
 						<TableRow>
@@ -153,6 +166,22 @@ export const Profile = (): ReactElement => {
 					onChangeRowsPerPage={handleChangeRowsPerPage}>
 				</TablePagination>
 			</TableContainer>
+
+
+		
+			<Box style={{justifyContent: 'center', display: 'flex', marginTop: '80px'}}>
+				<XYPlot
+					width={850}
+					height={300}
+				>
+					<HorizontalGridLines />
+					<LineSeries
+						data={ratingHistory} color="#F51010" />
+					<XAxis />
+					<YAxis />
+				</XYPlot>		
+		
+			</Box>
 		</Box>
 	)
 }
