@@ -36,8 +36,8 @@ export class GameService {
         return await game.save()
     }
 
-    async getGames(user: User) {
-        return this.gameRepository.getGames(user)
+    async getGames(userId: string) {
+        return this.gameRepository.getGames(userId)
     }
 
     async selectWinner(selectWinnerDto: SelectWinnerDto) {

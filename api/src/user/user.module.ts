@@ -17,7 +17,7 @@ import { JwtStrategy } from './jwt.strategy';
 				expiresIn: 6000000,
 				noTimestamp: true,
 			}
-		})
+		}),
 	],
 	providers: [UserService, JwtStrategy],
 	controllers: [UserController],

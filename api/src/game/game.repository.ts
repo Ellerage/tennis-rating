@@ -16,7 +16,7 @@ export class GameRepository extends Repository<Game> {
         return game
     }
 
-    async getGames(user: User) {
+    async getGames(userId: string) {
         const query = this.createQueryBuilder("game")
             .leftJoinAndSelect("game.players", "user")
             .leftJoinAndSelect("game.winner", "winner")
@@ -24,7 +24,7 @@ export class GameRepository extends Repository<Game> {
         const games = await query.getMany()
 
         return games.filter((game) => {
-            return game.players.find((player) => player.id === user.id)
+            return game.players.find((player) => player.id === userId)
         })
     }
 
@@ -58,7 +58,7 @@ export class GameRepository extends Repository<Game> {
     }
 
     async getStatsUserById(user: User) {
-        const myGames = await this.getGames(user)
+        const myGames = await this.getGames(user.id)
         const finishedGames = myGames.filter((game) => game.winner)
 
         const winAmount = finishedGames.reduce((wonAmount, currentGame) =>
