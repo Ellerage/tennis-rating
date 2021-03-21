@@ -6,10 +6,11 @@ import { UserRepository } from './user.repository';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
+import { GameRepository } from 'src/game/game.repository';
 
 @Module({
 	imports: [
-		TypeOrmModule.forFeature([UserRepository]),
+		TypeOrmModule.forFeature([UserRepository, GameRepository]),
 		PassportModule.register({ defaultStrategy: "jwt" }),
 		JwtModule.register({
 			secret: "secretKey",

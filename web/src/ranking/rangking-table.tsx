@@ -14,6 +14,8 @@ import { getTierName } from '../common/get-tier-name'
 import { getTierColor } from '../common/get-tier-color'
 import { getMe } from '../common/get-me'
 import Founder from '../ui/icons/founder.png'
+import { useHistory } from 'react-router'
+import { Routes } from '../common/routes'
 
 interface Props {
 	users: any
@@ -36,7 +38,8 @@ const StyledTableCell = styled(TableCell)`
 export const RankingTable = ({users}: Props): ReactElement => {
 	const classes = useStyles()
 	const [myRating, setMyRating] = useState(0)
-	
+	const history = useHistory()
+
 	useEffect(() => {
 		const init = async () => {
 			const user = await getMe()
@@ -64,7 +67,9 @@ export const RankingTable = ({users}: Props): ReactElement => {
 						const losingRating = EloRating.calculate(myRating, user.rating, false, 100).playerRating
 
 						return (
-							<Tooltip key={user.id} title={`Winning: ${winningRating} Losing: ${losingRating}`} placement="left">
+							<Tooltip key={user.id} title={`Winning: ${winningRating} Losing: ${losingRating}`} placement="left" onClick={() => history.push(`${Routes.PROFILE}/${user.id}`, {
+								userId: user.id
+							})}>
 								<TableRow style={{position: 'relative'}}>
 									<StyledTableCell style={{fontSize: '18px'}} align="center">
 										{index+1}

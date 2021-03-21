@@ -39,7 +39,7 @@ export const App = (): ReactElement => {
 						<Route path={'/ranking'} exact component={Ranking}/>
 						<Route path={'/signup'} exact component={RegisterPage}/>
 						<Route path={'/newgame'} exact component={NewGame}/>
-						<Route path={'/profile'} exact component={Profile}/>
+						<Route path={'/profile/:id'} exact component={Profile}/>
 						<Route path={'/history'} exact component={MatchHistory}/>
 						<Route path={'/aneki'} exact component={Aneki}/>
 					</Switch>

@@ -64,6 +64,6 @@ export class GameService {
             throw new NotFoundException("User not found")
         }
 
-        return this.gameRepository.getStatsUserById(user)
+        return this.gameRepository.getStatsUserById(userId)
     }
 }

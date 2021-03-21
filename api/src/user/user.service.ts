@@ -1,6 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
+import { GameRepository } from 'src/game/game.repository';
 import { FilterUserDto } from './dto/filter-user.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { ResultSignUpDto } from './dto/result-signup.dto';
@@ -15,6 +16,7 @@ export class UserService {
   constructor(
     @InjectRepository(UserRepository)
     private userRepository: UserRepository,
+    private gameRepository: GameRepository,
     private jwtService: JwtService
   ) { }
 
@@ -48,5 +50,9 @@ export class UserService {
 
   resetPassword(passwordDto: ResetPasswordDto) {
     return this.userRepository.resetPassword(passwordDto)
+  }
+
+  getStatsUserById(userId: string) {
+    return this.gameRepository.getStatsUserById(userId)
   }
 }

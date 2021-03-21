@@ -33,19 +33,7 @@ export class GameController {
 
     @Get()
     @UseGuards(AuthGuard("jwt"))
-    getGames(@CurrentUser() user: User): Promise<Game[]> {
+    getGames(@Body() user: User): Promise<Game[]> {
         return this.gameService.getGames(user.id)
     }
-
-    // @Post("/winner")
-    // @UseGuards(AuthGuard("jwt"))
-    // selectWinner(@Body(ValidationPipe) selectWinnerDto: SelectWinnerDto) {
-    //     return this.gameService.selectWinner(selectWinnerDto)
-    // }
-
-    @Get("/stats/:id")
-    getStatsUserById(@Param("id") userId: string) {
-        return this.gameService.getStatsUserById(userId)
-    }
-
 }

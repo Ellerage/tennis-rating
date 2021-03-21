@@ -48,4 +48,9 @@ export class UserController {
 	resetPassword(@Body() passwordDto: ResetPasswordDto) {
 		this.userService.resetPassword(passwordDto)
 	}
+
+	@Get("/stats/:id")
+	getStatsUserById(@Param("id") userId: string) {
+		return this.userService.getStatsUserById(userId)
+	}
 }
