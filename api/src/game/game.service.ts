@@ -5,6 +5,7 @@ import { ConfirmGameDto } from './dto/confirm-game.dto';
 import { CreateGameDto } from './dto/create-game.dto';
 import { SelectWinnerDto } from './dto/select-winner.dto';
 import { GameRepository } from './game.repository';
+var EloRating = require('elo-rating');
 
 @Injectable()
 export class GameService {
@@ -13,7 +14,7 @@ export class GameService {
         private userRepository: UserRepository
     ) { }
 
-    async createGame(createGame: CreateGameDto) {
+    async createGame(createGame: CreateGameDto, me: User) {
         const { winnerId, loserId } = createGame
 
         const winnerUser = await this.userRepository.findOne(winnerId)
@@ -23,11 +24,12 @@ export class GameService {
             throw new BadRequestException("Ne farmi ovoshey")
         }
 
-        const game = await this.gameRepository.createGame({ players: [winnerUser, loserUser] })
+        const game = await this.gameRepository.createGame({ players: [winnerUser, loserUser], confirmedUser: me })
 
         if (game.winner) {
             throw new ConflictException("The winner has already been selected")
         }
+
 
         const ratingChange = await this.userRepository.updateRating(winnerUser, loserUser, true)
 
@@ -68,7 +70,30 @@ export class GameService {
         return this.gameRepository.getStatsUserById(userId)
     }
 
-    async confirmGame(confirmGameDto: ConfirmGameDto) {
-        return this.gameRepository.confirmGame(confirmGameDto)
+    async confirmGame(confirmGameDto: ConfirmGameDto, me: User) {
+        const query = this.gameRepository.createQueryBuilder("game")
+            .leftJoinAndSelect("game.confirmedUsers", "user")
+            .where("game.isConfirmed=false")
+        // .andWhere("game.id IN (:...gamesIds)", { gamesIds: confirmGameDto.gameIds })
+
+        const games = await query.getMany()
+
+        games.forEach(async (game) => {
+            game.isConfirmed = true
+            console.log("Confirmed USERS: ", game.confirmedUsers)
+            console.log("Me id", me.id)
+            if (game.confirmedUsers[0].id !== me.id) {
+                game.confirmedUsers = [...game.confirmedUsers, me]
+
+                const loserUser = game.players.find((player) => player.id !== game.winner.id)
+                const winnerUser = await this.userRepository.findOne(game.winner.id)
+
+                await this.userRepository.updateRating(winnerUser, loserUser, true)
+
+                await game.save()
+            }
+        })
+
+        return { status: "OK" }
     }
 }

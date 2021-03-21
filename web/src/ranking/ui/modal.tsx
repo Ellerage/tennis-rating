@@ -82,8 +82,12 @@ export const ModalConfirm = ({isOpen, onClose, games, meUser}: Props): ReactElem
 	}
 
 	const confirmGameAsync = async () => {
+		const token = localStorage.getItem('token')
 		const response = await fetch(getUrlApi('game/confirm'), {
 			method: 'POST',
+			headers: {
+				'Authorization': `Bearer ${token}`
+			},
 			body: JSON.stringify(games.map((game) => game.id))
 		})
 

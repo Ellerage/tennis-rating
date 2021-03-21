@@ -1,4 +1,4 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, Unique, OneToMany } from 'typeorm'
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, Unique, OneToMany, ManyToOne } from 'typeorm'
 import { hash } from 'bcryptjs'
 import { Game } from 'src/game/game.entity';
 
@@ -31,6 +31,9 @@ export class User extends BaseEntity {
 
     @Column()
     salt: string
+
+    @ManyToOne(() => Game, game => game.confirmedUsers)
+    confirmedGame: Game[]
 
     async validatePassword(password: string): Promise<boolean> {
         return await hash(password, this.salt) === this.password

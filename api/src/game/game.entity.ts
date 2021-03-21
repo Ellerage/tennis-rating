@@ -1,4 +1,4 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, ManyToMany, JoinTable, ManyToOne, Column } from 'typeorm'
+import { BaseEntity, Entity, PrimaryGeneratedColumn, ManyToMany, JoinTable, ManyToOne, Column, OneToMany } from 'typeorm'
 import { User } from 'src/user/user.entity';
 
 @Entity()
@@ -21,4 +21,7 @@ export class Game extends BaseEntity {
 
     @Column({ default: false })
     isConfirmed: boolean
+
+    @OneToMany(() => User, user => user.confirmedGame)
+    confirmedUsers: User[]
 }
