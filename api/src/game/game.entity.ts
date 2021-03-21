@@ -13,6 +13,6 @@ export class Game extends BaseEntity {
     @JoinTable()
     players: User[]
 
-    @Column()
+    @Column({ default: new Date() })
     created_at: Date
 }
