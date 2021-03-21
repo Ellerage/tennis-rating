@@ -70,7 +70,7 @@ export const RankingTable = ({users}: Props): ReactElement => {
 							<Tooltip key={user.id} title={`Winning: ${winningRating} Losing: ${losingRating}`} placement="left" onClick={() => history.push(`${Routes.PROFILE}/${user.id}`, {
 								userId: user.id
 							})}>
-								<TableRow style={{position: 'relative'}}>
+								<TableRow style={{position: 'relative', cursor: 'pointer'}}>
 									<StyledTableCell style={{fontSize: '18px'}} align="center">
 										{index+1}
 									</StyledTableCell>
