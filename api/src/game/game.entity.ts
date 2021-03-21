@@ -1,4 +1,4 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, ManyToMany, JoinTable, Column, ManyToOne } from 'typeorm'
+import { BaseEntity, Entity, PrimaryGeneratedColumn, ManyToMany, JoinTable, ManyToOne, Column } from 'typeorm'
 import { User } from 'src/user/user.entity';
 
 @Entity()
@@ -12,4 +12,7 @@ export class Game extends BaseEntity {
     @ManyToMany(() => User)
     @JoinTable()
     players: User[]
+
+    @Column()
+    created_at: Date
 }

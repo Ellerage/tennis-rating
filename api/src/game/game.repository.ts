@@ -10,7 +10,7 @@ export class GameRepository extends Repository<Game> {
         const game = this.create()
 
         game.players = createGame.players
-
+        game.created_at = new Date()
         await game.save()
 
         return game
