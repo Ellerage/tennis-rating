@@ -18,4 +18,7 @@ export class Game extends BaseEntity {
 
     @Column({ default: 0 })
     ratingChange: number
+
+    @Column({ default: false })
+    isConfirmed: boolean
 }
