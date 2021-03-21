@@ -5,18 +5,15 @@ import MenuItem from '@material-ui/core/MenuItem'
 import { makeStyles } from '@material-ui/core/styles'
 import { getUrlApi } from '../common/get-url'
 import { NewGameSvg }from './icons/new-game'
-import Snackbar from '@material-ui/core/Snackbar'
-import MuiAlert, { AlertProps } from '@material-ui/lab/Alert'
 import { User } from '../common/types'
+import { Toast } from './toast'
 
 interface Props {
 	users: User[]
 	getUsersAsync: () => void
 }
 
-function Alert(props: AlertProps) {
-	return <MuiAlert elevation={6} variant="filled" {...props} />
-}
+
   
 const useStyles = makeStyles((theme) => ({
 	formControl: {
@@ -33,6 +30,7 @@ export const NewGame = ({users, getUsersAsync}: Props): ReactElement => {
 	const [winnerId, setWinnerId] = useState<string | undefined | unknown>('')
 	const [loserId, setLoserId] = useState<string | undefined | unknown>('')
 	const [isOpenAlert, setIsOpenAlert] = useState(false)
+
 	const handleCreateGameAsync = async () => {
 		try {
 			const jwtToken = localStorage.getItem('token')
@@ -46,10 +44,11 @@ export const NewGame = ({users, getUsersAsync}: Props): ReactElement => {
 				body: JSON.stringify({winnerId, loserId})
 			})
 
-			await response.json()
-
-			getUsersAsync()
-			setIsOpenAlert(true)
+			if (response.ok) {
+				await response.json()
+				getUsersAsync()
+				setIsOpenAlert(true)
+			}
 		// eslint-disable-next-line no-empty
 		} catch {}
 	}
@@ -84,9 +83,9 @@ export const NewGame = ({users, getUsersAsync}: Props): ReactElement => {
 							style={{color: 'white'}}
 							onChange={(event) => setWinnerId(event.target.value) }
 						>
-							{users.map((user: User) => {
-								return <MenuItem value={user.id} key={user.id}>{`${user.firstName} ${user.lastName}`}</MenuItem>
-							})}
+							{users.map((user: User) => 
+								<MenuItem value={user.id} key={user.id}>{`${user.firstName} ${user.lastName}`}</MenuItem>
+							)}
 						</Select>
 					</FormControl>
 				</Box>
@@ -101,9 +100,9 @@ export const NewGame = ({users, getUsersAsync}: Props): ReactElement => {
 							style={{color: 'white'}}
 							onChange={(event) => setLoserId(event.target.value) }
 						>
-							{users.map((user: User) => {
-								return <MenuItem value={user.id} key={user.id}>{`${user.firstName} ${user.lastName}`}</MenuItem>
-							})}
+							{users.map((user: User) => 
+								<MenuItem value={user.id} key={user.id}>{`${user.firstName} ${user.lastName}`}</MenuItem>
+							)}
 						</Select>
 					</FormControl>
 				</Box>
@@ -112,11 +111,8 @@ export const NewGame = ({users, getUsersAsync}: Props): ReactElement => {
 					SUBMIT
 				</Button>
 
-				<Snackbar open={isOpenAlert} autoHideDuration={2000}  anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} onClose={() => setIsOpenAlert(false)}>
-					<Alert severity="success" onClose={() => setIsOpenAlert(false)} >
-						THE GAME WAS REGISTERED!
-					</Alert>
-				</Snackbar>
+
+				<Toast text="THE GAME WAS REGISTERED!" isOpen={isOpenAlert} onClose={() => setIsOpenAlert(false)}/>
 			</Box>
 		</Box>
 	)
