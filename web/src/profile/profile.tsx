@@ -61,7 +61,7 @@ export const Profile = (): ReactElement => {
 
 			const responseStats = await fetch(getUrlApi(`user/stats/${userId}`))
 			const resultStats = await responseStats.json()
-			console.log(resultStats)
+
 			setUserStats(resultStats)
 		}
 
@@ -70,12 +70,13 @@ export const Profile = (): ReactElement => {
 
 
 	useEffect(() => {
-		const preRating = 1000
-			
-		const historyChange = userStats.games.map((game: Game, index) => {
+		let preRating = 1000
+
+		const historyChange = userStats.games.slice().sort((a: Game, b: Game) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime()).map((game: Game, index) => {
 			const isWon = user.id === game.winner.id
 			const value = isWon ? preRating + game.ratingChange : preRating - game.ratingChange
-			return {x: index, y: value}
+			preRating = value
+			return {x: index+1, y: value}
 		})
 
 		setRatingHistory(historyChange)
