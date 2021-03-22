@@ -13,6 +13,8 @@ import TableContainer from '@material-ui/core/TableContainer'
 import Paper from '@material-ui/core/Paper'
 import { Loader } from '../ui/loader'
 import { User } from '../common/types'
+import { GamesSvg } from '../ui/icons/games-svg'
+import { ScoreStateSvg } from '../ui/icons/score-state-svg'
 
 const useStyles = makeStyles({
 	table: {
@@ -95,87 +97,94 @@ export const Profile = (): ReactElement => {
 		return <Loader />
 	}
 	return (
-		<Box width="100vw" height="100vh" overflow="hidden">
-			<Box display="flex" justifyContent="center" marginY="50px" alignItems="center">
+		<Box width="100vw" height="100vh" style={{overflowX: 'hidden'}}>
+			<Box display="flex" justifyContent="space-between" marginY="50px" alignItems="center" width="850px" marginLeft="auto" marginRight="auto">
 				<Box color="white" fontSize="26px" fontWeight="bold" display="flex" marginRight="70px">
 					<Box>{user.firstName}</Box>
 					<Box color="#F51010" marginX="5px">{user.username}</Box>
 					<Box>{user.lastName}</Box>
 				</Box>
-				<Box color="white"  fontSize="26px" fontWeight="bold">Winrate: {userStats.winRate}%</Box>
+				<Box display="flex" flexDirection="column">
+					<Box color="white" fontSize="26px" fontWeight="bold">{`Games played: ${userStats.games.length}`}</Box>
+					<Box color="white" fontSize="26px" fontWeight="bold" textAlign="left">Winrate: {userStats.winRate}%</Box>
+				</Box>
+			</Box>
+			<Box style={{backgroundColor: '#323232', width: '850px', marginLeft: 'auto', marginRight: 'auto',}}>
+				<GamesSvg />
+				<TableContainer component={Paper} style={{display: 'flex', width: '850px', flexWrap: 'wrap', marginLeft: 'auto', marginRight: 'auto', justifyContent: 'center', backgroundColor: 'rgb(19, 19, 19)', boxShadow: 'none'}}>
+					<Table className={classes.table} aria-label="simple table">
+						<TableHead>
+							<TableRow>
+								<StyledTableCell>Winner</StyledTableCell>
+								<StyledTableCell>WR PTS</StyledTableCell>
+								<StyledTableCell align="center">Date</StyledTableCell>
+								<StyledTableCell align="right">LR PTS</StyledTableCell>
+								<StyledTableCell align="right">Loser</StyledTableCell>
+							</TableRow>
+						</TableHead>
+						<TableBody>
+							{userStats.games.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((game: Game) => {
+								const loserUser = game.players.find((user) => user.id !== game.winner.id)
+								const date = new Date(game.created_at)
+								
+								return (
+									<TableRow key={game.id}>
+										<StyledTableCell>
+											{`${game.winner.firstName} ${game.winner.lastName}`}
+										</StyledTableCell>
+										<StyledTableCell style={{color: '#A0FF42'}}>
+											{`+${game.ratingChange}`}
+										</StyledTableCell>
+										<StyledTableCell align="center">
+											{`${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`}
+										</StyledTableCell>
+										<StyledTableCell style={{color: '#F51010'}} align="right">
+											{`-${game.ratingChange}`}
+										</StyledTableCell>
+										<StyledTableCell align="right">
+											{`${loserUser?.firstName} ${loserUser?.lastName}`}
+										</StyledTableCell>
+									</TableRow>
+								)
+							})}
+
+							{emptyRows > 0 && (
+								<TableRow style={{ height: 53 * emptyRows }}>
+									<TableCell colSpan={6} />
+								</TableRow>
+							)}
+						</TableBody>
+					</Table>
+
+					<TablePagination 
+						rowsPerPageOptions={[5, 10, 25]}
+						style={{color: 'white', backgroundColor: '#323232', width: '100%', display: 'flex', justifyContent: 'center'}}
+						component="div"
+						count={userStats.games.length}
+						rowsPerPage={rowsPerPage}
+						page={page}
+						onChangePage={handleChangePage}
+						onChangeRowsPerPage={handleChangeRowsPerPage}>
+					</TablePagination>
+				</TableContainer>
+
 			</Box>
 
-			<TableContainer component={Paper} style={{display: 'flex', width: '850px', flexWrap: 'wrap', marginLeft: 'auto', marginRight: 'auto', justifyContent: 'center', backgroundColor: 'rgb(19, 19, 19)', boxShadow: 'none'}}>
-				<Table className={classes.table} aria-label="simple table">
-					<TableHead>
-						<TableRow>
-							<StyledTableCell>Winner</StyledTableCell>
-							<StyledTableCell>WR PTS</StyledTableCell>
-							<StyledTableCell>Date</StyledTableCell>
-							<StyledTableCell>LR PTS</StyledTableCell>
-							<StyledTableCell>Loser</StyledTableCell>
-						</TableRow>
-					</TableHead>
-					<TableBody>
-						{userStats.games.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((game: Game) => {
-							const loserUser = game.players.find((user) => user.id !== game.winner.id)
-							const date = new Date(game.created_at)
-								
-							return (
-								<TableRow key={game.id}>
-									<StyledTableCell>
-										{`${game.winner.firstName} ${game.winner.lastName}`}
-									</StyledTableCell>
-									<StyledTableCell style={{color: '#A0FF42'}}>
-										{`+${game.ratingChange}`}
-									</StyledTableCell>
-									<StyledTableCell>
-										{`${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`}
-									</StyledTableCell>
-									<StyledTableCell style={{color: '#F51010'}}>
-										{`-${game.ratingChange}`}
-									</StyledTableCell>
-									<StyledTableCell>
-										{`${loserUser?.firstName} ${loserUser?.lastName}`}
-									</StyledTableCell>
-								</TableRow>
-							)
-						})}
-
-						{emptyRows > 0 && (
-							<TableRow style={{ height: 53 * emptyRows }}>
-								<TableCell colSpan={6} />
-							</TableRow>
-						)}
-					</TableBody>
-				</Table>
-
-				<TablePagination 
-					rowsPerPageOptions={[5, 10, 25]}
-					style={{color: 'white'}}
-					component="div"
-					count={userStats.games.length}
-					rowsPerPage={rowsPerPage}
-					page={page}
-					onChangePage={handleChangePage}
-					onChangeRowsPerPage={handleChangeRowsPerPage}>
-				</TablePagination>
-			</TableContainer>
-
-
 		
-			<Box style={{justifyContent: 'center', display: 'flex', marginTop: '80px'}}>
+			<Box style={{justifyContent: 'center', display: 'flex', marginTop: '10px', marginBottom: '40px', flexWrap: 'wrap', backgroundColor: '#323232', width: 810, marginLeft: 'auto', marginRight: 'auto', padding: '20px', height: 340}}>
+				<ScoreStateSvg />
+
 				<XYPlot
-					width={850}
+					width={800}
 					height={300}
+					style={{marginTop: 20}}
 				>
 					<HorizontalGridLines />
 					<LineSeries
 						data={ratingHistory} color="#F51010" />
-					<XAxis />
+					<XAxis  />
 					<YAxis />
 				</XYPlot>		
-		
 			</Box>
 		</Box>
 	)
