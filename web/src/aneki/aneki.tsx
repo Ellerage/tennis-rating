@@ -9,6 +9,7 @@ export const Aneki = (): ReactElement => {
 			alignItems="center"
 			width="100vw"
 			height="100vh"
+			bgcolor="#1a1a1a"
 		>
 			<Box
 				display="flex"
@@ -17,7 +18,7 @@ export const Aneki = (): ReactElement => {
 				width="850px"
 				height="430px"
 				color="white"
-				bgcolor="#323232"
+				bgcolor="#1a1a1a"
 				id="result_11"
 			></Box>
 		</Box>
