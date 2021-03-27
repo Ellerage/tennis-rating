@@ -1,16 +1,16 @@
 import Box from '@material-ui/core/Box'
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
-import { User } from '../../common/types'
+import { UserI } from '../../common/types'
 
 interface Props {
     id: string
     created_at: string
     isConfirmed: boolean
     ratingChange: number
-    winner: User
-    players: User[]
-    meUser: User
+    winner: UserI
+    players: UserI[]
+    meUser: UserI
 }
 
 const Root = styled(Box)`

@@ -3,7 +3,7 @@ import Box from '@material-ui/core/Box'
 import Modal from '@material-ui/core/Modal'
 import React, { ReactElement, useState } from 'react'
 import styled from 'styled-components'
-import { User } from '../../common/types'
+import { UserI } from '../../common/types'
 import { UnconfirmedGame } from './unconfirmed-game'
 import TableContainer from '@material-ui/core/TableContainer'
 import Paper from '@material-ui/core/Paper'
@@ -21,7 +21,7 @@ interface Props {
     isOpen: boolean
     onClose: () => void
     games: Game[]
-	meUser: User
+	meUser: UserI
 }
 
 function getModalStyle() {

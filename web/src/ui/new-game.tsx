@@ -5,11 +5,11 @@ import MenuItem from '@material-ui/core/MenuItem'
 import { makeStyles } from '@material-ui/core/styles'
 import { getUrlApi } from '../common/get-url'
 import { NewGameSvg }from './icons/new-game'
-import { User } from '../common/types'
+import { UserI } from '../common/types'
 import { Toast } from './toast'
 
 interface Props {
-	users: User[]
+	users: UserI[]
 	getUsersAsync: () => void
 }
 
@@ -83,7 +83,7 @@ export const NewGame = ({users, getUsersAsync}: Props): ReactElement => {
 							style={{color: 'white'}}
 							onChange={(event) => setWinnerId(event.target.value) }
 						>
-							{users.map((user: User) => 
+							{users.map((user: UserI) => 
 								<MenuItem value={user.id} key={user.id}>{`${user.firstName} ${user.lastName}`}</MenuItem>
 							)}
 						</Select>
@@ -100,7 +100,7 @@ export const NewGame = ({users, getUsersAsync}: Props): ReactElement => {
 							style={{color: 'white'}}
 							onChange={(event) => setLoserId(event.target.value) }
 						>
-							{users.map((user: User) => 
+							{users.map((user: UserI) => 
 								<MenuItem value={user.id} key={user.id}>{`${user.firstName} ${user.lastName}`}</MenuItem>
 							)}
 						</Select>

@@ -1,36 +1,30 @@
 import React, { ReactElement, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
-import { getUrlApi } from '../common/get-url'
 import { Routes } from '../common/routes'
 import { Loader } from '../ui/loader'
+import userStore from '../store/user'
+import { observer } from 'mobx-react-lite'
 
-export const LoadingScreen = (): ReactElement => {
+export const LoadingScreen = observer((): ReactElement => {
 	const history = useHistory()
 
 	useEffect(() => {
 		const init = async () => {
 			const token = localStorage.getItem('token')
-			if (token) {
-				const response = await fetch(getUrlApi('user/me'), {
-					headers: {
-						'Authorization': `Bearer ${token}`
-					}
-				})
-				const result = await response.json()
 
-				if (result.statusCode === 401) {
-					history.push(Routes.LOGIN)
-				} else {
-					history.push(Routes.RANKING)
-				}
-			} else {
+			if (!token) {
 				history.push(Routes.LOGIN)
+				return
 			}
+	
+			await userStore.fetchMe()
+			history.push(Routes.RANKING)
 		}
+
 		init()
 	}, [])
 	
 	return (
 		<Loader />
 	)
-}
+})

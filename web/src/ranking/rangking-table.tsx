@@ -4,7 +4,7 @@ import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 import { Box, Tooltip } from '@material-ui/core'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -12,14 +12,14 @@ const EloRating = require('elo-rating')
 
 import { getTierName } from '../common/get-tier-name'
 import { getTierColor } from '../common/get-tier-color'
-import { getMe } from '../common/get-me'
 import Founder from '../ui/icons/founder.png'
 import { useHistory } from 'react-router'
 import { Routes } from '../common/routes'
-import { User } from '../common/types'
+import { UserI } from '../common/types'
+import userStore from '../store/user'
 
 interface Props {
-	users: User[]
+	users: UserI[]
 }
 
 const useStyles = makeStyles({
@@ -38,17 +38,7 @@ const StyledTableCell = styled(TableCell)`
 
 export const RankingTable = ({users}: Props): ReactElement => {
 	const classes = useStyles()
-	const [myRating, setMyRating] = useState(0)
 	const history = useHistory()
-
-	useEffect(() => {
-		const init = async () => {
-			const user = await getMe()
-			setMyRating(user.rating)
-		}
-		
-		init()
-	}, [])
 
 	return (
 		<Box display="flex" justifyContent="center">
@@ -63,9 +53,9 @@ export const RankingTable = ({users}: Props): ReactElement => {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{users.map((user: User, index: number) => {
-						const winningRating = EloRating.calculate(myRating, user.rating, true, 100).playerRating
-						const losingRating = EloRating.calculate(myRating, user.rating, false, 100).playerRating
+					{users.map((user: UserI, index: number) => {
+						const winningRating = EloRating.calculate(userStore.me.rating, user.rating, true, 100).playerRating
+						const losingRating = EloRating.calculate(userStore.me.rating, user.rating, false, 100).playerRating
 
 						return (
 							<Tooltip key={user.id} title={`Winning: ${winningRating} Losing: ${losingRating}`} placement="right" onClick={() => history.push(`${Routes.PROFILE}/${user.id}`, {

@@ -2,10 +2,10 @@ import React, { ReactElement } from 'react'
 import { Box } from '@material-ui/core'
 import styled from 'styled-components'
 import img from '../ui/icons/UBER-PREDATOR.png'
-import { User } from '../common/types'
+import { UserI } from '../common/types'
 
 interface Props {
-	user: User
+	user: UserI
 }
 
 const UberBackground = styled(Box)`
