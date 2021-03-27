@@ -4,5 +4,6 @@ export enum Routes {
     RANKING = 'RANKING',
     PROFILE = 'PROFILE',
     HISTORY = 'HISTORY',
-    ANEKI = 'ANEKI'
+    ANEKI = 'ANEKI',
+    FOUNDERS = 'founders'
 }

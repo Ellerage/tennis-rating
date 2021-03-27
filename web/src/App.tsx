@@ -14,6 +14,7 @@ import {
 	Route,
 } from 'react-router-dom'
 import { LoadingScreen } from './loading/loading-screen'
+import { Founders } from './founders/founders'
 
 
 
@@ -42,6 +43,7 @@ export const App = (): ReactElement => {
 						<Route path={'/profile/:id'} exact component={Profile}/>
 						<Route path={'/history'} exact component={MatchHistory}/>
 						<Route path={'/aneki'} exact component={Aneki}/>
+						<Route path={'/founders'} exact component={Founders} />
 					</Switch>
 				</div>
 
