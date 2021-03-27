@@ -1,5 +1,5 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
-import { makeAutoObservable } from 'mobx'
+import { makeAutoObservable, runInAction } from 'mobx'
 import { getUrlApi } from '../common/get-url'
 import { UserI } from '../common/types'
 import { Game } from '../profile/profile'
@@ -11,46 +11,38 @@ interface UserStatsI {
 }
 
 class User {
-    me: UserI = {} as UserI
     users = []
 	userStats: UserStatsI = {user: undefined, winRate: 0, games: []} as UserStatsI
 	ratingChangeHistory = [{x: 0, y: 0}]
+	isLoading = false
 
 	constructor() {
     	makeAutoObservable(this)
 	}
 
-
-	async fetchMe() {
-    	const token = localStorage.getItem('token')
-        
-    	const response = await fetch(getUrlApi('user/me'), {
-    		headers: {
-    			'Authorization': `Bearer ${token}`
-    		}
-    	})
-    	const resultMe = await response.json()
-
-		this.me = resultMe
-	}
-
 	 async fetchUsers() {
+		this.isLoading = true
     	const response = await fetch(getUrlApi('user'))
     	const result = await response.json()
 
-    	this.users = result.sort((a: UserI, b: UserI) => b.rating - a.rating)
+		this.users = result.sort((a: UserI, b: UserI) => b.rating - a.rating)
+		this.isLoading = false
 	}
 
 	async fetchUser(id: string) {
+		this.isLoading = true
     	const responseUser = await fetch(getUrlApi(`user/${id}`))
     	const resultUser = await responseUser.json()
 
 		const responseStats = await fetch(getUrlApi(`user/stats/${id}`))
 		const resultStats = await responseStats.json()
 		
-		this.userStats = {...resultStats, user: resultUser}
-
+		runInAction(() => {
+			this.userStats = {...resultStats, user: resultUser}
+		})
+		
 		this.calcRatingHistory()
+		this.isLoading = false
 	}
 
 	calcRatingHistory() {

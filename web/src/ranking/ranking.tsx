@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { ReactElement, useEffect } from 'react'
 import { Box } from '@material-ui/core'
 import { Header } from '../ui/header'
 import { NewGame } from '../ui/new-game'
@@ -7,15 +7,13 @@ import { UberPredator } from './uber-predator'
 import { Loader } from '../ui/loader'
 import { observer } from 'mobx-react-lite'
 import userStore from '../store/user'
+import meStore from '../store/me'
 
 export const Ranking = observer((): ReactElement => {
-	const [isLoading, setIsLoading] = useState(false)
 
 	const getUsersAsync = async () => {
-		setIsLoading(true)
 		await userStore.fetchUsers()
-		await userStore.fetchMe()
-		setIsLoading(false)
+		await meStore.fetchMe()
 	}
 
 	useEffect(() => {
@@ -31,7 +29,7 @@ export const Ranking = observer((): ReactElement => {
 				<NewGame getUsersAsync={getUsersAsync} users={userStore.users} />
 			</Box>
 			
-			{isLoading ? <Loader /> : <RankingTable users={userStore.users} />}
+			{userStore.isLoading ? <Loader /> : <RankingTable users={userStore.users} />}
 		</Box>
 	)
 })

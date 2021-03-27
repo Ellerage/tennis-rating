@@ -2,7 +2,7 @@ import React, { ReactElement, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Routes } from '../common/routes'
 import { Loader } from '../ui/loader'
-import userStore from '../store/user'
+import meStore from '../store/me'
 import { observer } from 'mobx-react-lite'
 
 export const LoadingScreen = observer((): ReactElement => {
@@ -17,7 +17,7 @@ export const LoadingScreen = observer((): ReactElement => {
 				return
 			}
 	
-			await userStore.fetchMe()
+			await meStore.fetchMe()
 			history.push(Routes.RANKING)
 		}
 
