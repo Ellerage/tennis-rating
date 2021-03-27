@@ -22,7 +22,6 @@ class Me {
     		}
     	})
     	const resultMe = await response.json()
-
     	this.me = resultMe
     	this.isLoading = false
     }

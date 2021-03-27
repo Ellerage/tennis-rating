@@ -29,7 +29,7 @@ export const Ranking = observer((): ReactElement => {
 				<NewGame getUsersAsync={getUsersAsync} users={userStore.users} />
 			</Box>
 			
-			{userStore.isLoading ? <Loader /> : <RankingTable users={userStore.users} />}
+			{userStore.isLoading || meStore.isLoading ? <Loader /> : <RankingTable users={userStore.users} me={meStore.me}/>}
 		</Box>
 	)
 })

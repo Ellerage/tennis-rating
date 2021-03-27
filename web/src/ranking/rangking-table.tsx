@@ -16,11 +16,10 @@ import Founder from '../ui/icons/founder.png'
 import { useHistory } from 'react-router'
 import { Routes } from '../common/routes'
 import { UserI } from '../common/types'
-import userStore from '../store/user'
-import meStore from '../store/me'
 
 interface Props {
 	users: UserI[]
+	me: UserI
 }
 
 const useStyles = makeStyles({
@@ -37,7 +36,7 @@ const StyledTableCell = styled(TableCell)`
   border-bottom: 1px solid #414141;
 `
 
-export const RankingTable = ({users}: Props): ReactElement => {
+export const RankingTable = ({users, me}: Props): ReactElement => {
 	const classes = useStyles()
 	const history = useHistory()
 
@@ -55,8 +54,8 @@ export const RankingTable = ({users}: Props): ReactElement => {
 				</TableHead>
 				<TableBody>
 					{users.map((user: UserI, index: number) => {
-						const winningRating = EloRating.calculate(meStore.me.rating, user.rating, true, 100).playerRating
-						const losingRating = EloRating.calculate(meStore.me.rating, user.rating, false, 100).playerRating
+						const winningRating = EloRating.calculate(me.rating, user.rating, true, 100).playerRating
+						const losingRating = EloRating.calculate(me.rating, user.rating, false, 100).playerRating
 
 						return (
 							<Tooltip key={user.id} title={`Winning: ${winningRating} Losing: ${losingRating}`} placement="right" onClick={() => history.push(`${Routes.PROFILE}/${user.id}`, {
