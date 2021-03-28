@@ -84,7 +84,7 @@ export const Profile = observer((): ReactElement => {
 				</Box>
 				<Box display="flex" flexDirection="column">
 					<Box color="white" fontSize="26px" fontWeight="bold">{`Games played: ${userStore.userStats.games.length}`}</Box>
-					<Box color="white" fontSize="26px" fontWeight="bold" textAlign="left">Winrate: {userStore.userStats.winRate}%</Box>
+					<Box color="white" fontSize="26px" fontWeight="bold" textAlign="left">Win rate: {userStore.userStats.winRate}%</Box>
 				</Box>
 			</Box>
 			<Box style={{backgroundColor: '#323232', width: '850px', marginLeft: 'auto', marginRight: 'auto',}}>
