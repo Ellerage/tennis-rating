@@ -59,4 +59,8 @@ export class UserService {
   banUser(userId: string) {
     this.userRepository.banUser(userId)
   }
+
+  unbanUser(userId: string) {
+    this.userRepository.unbanUser(userId)
+  }
 }

@@ -124,6 +124,14 @@ export class UserRepository extends Repository<User> {
     await user.save()
   }
 
+  async unbanUser(userId: string) {
+    const user = await this.findOne(userId)
+
+    user.isBlocked = false
+
+    await user.save()
+  }
+
   removeProtectedFileds(users: User[]) {
     return users.map(this.removeProtectedFieldsUser)
   }

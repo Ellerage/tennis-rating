@@ -58,4 +58,9 @@ export class UserController {
 	banUser(@Param("id") userId: string) {
 		this.userService.banUser(userId)
 	}
+
+	@Post("/unban/:id")
+	unbanUser(@Param("id") userId: string) {
+		this.userService.unbanUser(userId)
+	}
 }
