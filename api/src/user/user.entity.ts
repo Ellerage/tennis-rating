@@ -26,6 +26,9 @@ export class User extends BaseEntity {
     @Column({ default: false })
     isPremium?: boolean
 
+    @Column({ default: false })
+    isBlocked: boolean
+
     @Column()
     password: string;
 

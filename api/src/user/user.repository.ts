@@ -80,7 +80,9 @@ export class UserRepository extends Repository<User> {
 
       return this.removeProtectedFileds(users)
     } else {
-      const users = await this.find()
+      const query = this.createQueryBuilder("user").where("user.isBlocked=false")
+
+      const users = await query.getMany()
 
       return this.removeProtectedFileds(users)
     }
@@ -110,6 +112,14 @@ export class UserRepository extends Repository<User> {
 
     user.salt = await genSalt();
     user.password = await hash(passwordDto.password, user.salt);
+
+    await user.save()
+  }
+
+  async banUser(userId: string) {
+    const user = await this.findOne(userId)
+
+    user.isBlocked = true
 
     await user.save()
   }

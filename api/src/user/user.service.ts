@@ -55,4 +55,8 @@ export class UserService {
   getStatsUserById(userId: string) {
     return this.gameRepository.getStatsUserById(userId)
   }
+
+  banUser(userId: string) {
+    this.userRepository.banUser(userId)
+  }
 }

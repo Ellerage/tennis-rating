@@ -53,4 +53,9 @@ export class UserController {
 	getStatsUserById(@Param("id") userId: string) {
 		return this.userService.getStatsUserById(userId)
 	}
+
+	@Post("/ban/:id")
+	banUser(@Param("id") userId: string) {
+		this.userService.banUser(userId)
+	}
 }
