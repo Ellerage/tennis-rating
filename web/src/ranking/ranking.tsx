@@ -8,6 +8,7 @@ import { Loader } from '../ui/loader'
 import { observer } from 'mobx-react-lite'
 import userStore from '../store/user'
 import meStore from '../store/me'
+import { ActionButtons } from './ui/action-buttons'
 
 export const Ranking = observer((): ReactElement => {
 
@@ -30,6 +31,8 @@ export const Ranking = observer((): ReactElement => {
 			</Box>
 			
 			{userStore.isLoading || meStore.isLoading ? <Loader /> : <RankingTable users={userStore.users} me={meStore.me}/>}
+
+			<ActionButtons />
 		</Box>
 	)
 })

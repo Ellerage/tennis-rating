@@ -15,6 +15,9 @@ import {
 } from 'react-router-dom'
 import { LoadingScreen } from './loading/loading-screen'
 import { Founders } from './founders/founders'
+import { Routes } from './common/routes'
+import { TournamentsPage } from './tournaments/tournaments.page'
+import { DonatePage } from './donate/donate.page'
 
 
 
@@ -44,6 +47,8 @@ export const App = (): ReactElement => {
 						<Route path={'/history'} exact component={MatchHistory}/>
 						<Route path={'/aneki'} exact component={Aneki}/>
 						<Route path={'/founders'} exact component={Founders} />
+						<Route path={'/tournaments'} exact component={TournamentsPage} />
+						<Route path={'/donate'} exact component={DonatePage} />
 					</Switch>
 				</div>
 

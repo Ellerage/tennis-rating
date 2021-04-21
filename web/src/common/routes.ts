@@ -5,5 +5,7 @@ export enum Routes {
     PROFILE = 'PROFILE',
     HISTORY = 'HISTORY',
     ANEKI = 'ANEKI',
-    FOUNDERS = 'founders'
+    FOUNDERS = 'founders',
+    TOURNAMENTS = 'TOURNAMENTS',
+    DONATE = 'DONATE'
 }
