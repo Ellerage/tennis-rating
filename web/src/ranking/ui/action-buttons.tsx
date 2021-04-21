@@ -1,8 +1,9 @@
 import { Box, ButtonBase } from '@material-ui/core'
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useState } from 'react'
 import { useHistory } from 'react-router'
 import styled from 'styled-components'
 import { Routes } from '../../common/routes'
+import { Toast } from '../../ui/toast'
 
 const Button = styled(ButtonBase)`
     background-color: #686868;
@@ -21,6 +22,7 @@ const DonateButton = styled(Button)`
 
 export const ActionButtons = (): ReactElement => {
 	const history = useHistory()
+	const [isOpen, setIsOpen] = useState(false)
 
 	const navigateToAneki = () => {
 		history.push(Routes.ANEKI)
@@ -32,7 +34,7 @@ export const ActionButtons = (): ReactElement => {
 	}
 
 	const navigateToDonate = () => {
-		history.push(Routes.DONATE)
+		setIsOpen(true)
 	}
 
 	return (
@@ -40,6 +42,8 @@ export const ActionButtons = (): ReactElement => {
 			<Button onClick={navigateToAneki}>ANEKI</Button>
 			<Button onClick={navigateToTournaments}>TOURNAMENTS</Button>
 			<DonateButton onClick={navigateToDonate}>DONATE</DonateButton>
+
+			<Toast text="300$ were taken from your social account" isOpen={isOpen} onClose={() => setIsOpen(false)}/>
 		</Box>
 	)
 }
