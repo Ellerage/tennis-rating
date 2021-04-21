@@ -6,10 +6,11 @@ import MenuItem from '@material-ui/core/MenuItem'
 import InputLabel from '@material-ui/core/InputLabel'
 import SelectBase from '@material-ui/core/Select'
 import { UserI } from '../common/types'
+import { CSSProperties } from '@material-ui/styles'
 
 const useStyles = makeStyles((theme) => ({
 	formControl: {
-		minWidth: 255,
+		minWidth: 300,
 	},
 	selectEmpty: {
 		marginTop: theme.spacing(2),
@@ -19,16 +20,17 @@ const useStyles = makeStyles((theme) => ({
 interface Props {
     users: UserI[]
     value: string
-    prefix: string
+    prefix?: string
     label: string
+	style?: CSSProperties
     onChange: (value: string) => void
 }
 
-export const Select = ({users, value, prefix, label, onChange}: Props): ReactElement => {
+export const Select = ({users, value, prefix, label, onChange, style}: Props): ReactElement => {
 	const classes = useStyles()
     
 	return (
-		<Box display="flex" alignItems="center">
+		<Box display="flex" alignItems="center" style={style}>
 			<Box marginRight="15px" fontWeight="bold">
 				{prefix}
 			</Box>

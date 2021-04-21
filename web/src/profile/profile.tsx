@@ -77,14 +77,17 @@ export const Profile = observer((): ReactElement => {
 	return (
 		<Box width="100vw" height="100vh" style={{overflowX: 'hidden'}}>
 			<Box display="flex" justifyContent="space-between" marginY="50px" alignItems="center" width="850px" marginLeft="auto" marginRight="auto">
-				<Box color="white" fontSize="26px" fontWeight="bold" display="flex" marginRight="70px">
-					<Box>{userStore.userStats.user.firstName}</Box>
-					<Box color="#F51010" marginX="5px">{userStore.userStats.user.username}</Box>
-					<Box>{userStore.userStats.user.lastName}</Box>
+				<Box display="flex" flexDirection="column">
+					<Box color="white" fontSize="26px" fontWeight="bold" display="flex" marginRight="70px">
+						<Box>{userStore.userStats.user.firstName}</Box>
+						<Box color="#F51010" marginX="5px">{userStore.userStats.user.username}</Box>
+						<Box>{userStore.userStats.user.lastName}</Box>
+					</Box>
+					<Box color="#F51010" fontWeight="bold" fontSize="26px" marginRight="auto">{userStore.userStats.user.rating} pts</Box>
 				</Box>
 				<Box display="flex" flexDirection="column">
 					<Box color="white" fontSize="26px" fontWeight="bold">{`Games played: ${userStore.userStats.games.length}`}</Box>
-					<Box color="white" fontSize="26px" fontWeight="bold" textAlign="left">Win rate: {userStore.userStats.winRate}%</Box>
+					<Box color="white" fontSize="26px" fontWeight="bold" textAlign="right">Win rate: {userStore.userStats.winRate}%</Box>
 				</Box>
 			</Box>
 			<Box style={{backgroundColor: '#323232', width: '850px', marginLeft: 'auto', marginRight: 'auto',}}>

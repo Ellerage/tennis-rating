@@ -5,6 +5,7 @@ import { NewGameSvg }from './icons/new-game'
 import { UserI } from '../common/types'
 import { Toast } from './toast'
 import { Select } from './select'
+import { SwitchSvg } from './icons/switch'
 
 interface Props {
 	users: UserI[]
@@ -38,6 +39,14 @@ export const NewGame = ({users, getUsersAsync}: Props): ReactElement => {
 		} catch {}
 	}
 
+	const handleSwitch = () => {
+		const winnerIdClone = winnerId
+		const loserIdClone = loserId
+
+		setWinnerId(loserIdClone)
+		setLoserId(winnerIdClone)
+	}
+
 	return (
 		<Box width="850px" height="150px" bgcolor="#323232">
 			<Box
@@ -55,10 +64,13 @@ export const NewGame = ({users, getUsersAsync}: Props): ReactElement => {
 				alignItems="center"
 				marginTop="20px"
 			>
-				<Select users={users} prefix="PREDATOR" label="Winner" value={winnerId} onChange={setWinnerId} />
-				<Select users={users} prefix="PREY" label="Loser" value={loserId} onChange={setLoserId} />
+				<Select users={users} label="Winner" value={winnerId} onChange={setWinnerId} />
 
-				<Button variant="contained" color="secondary" size="large" onClick={handleCreateGameAsync} style={{height: '60px', fontWeight: 'bold'}} >
+				<SwitchSvg onClick={handleSwitch} />
+
+				<Select users={users} label="Loser" value={loserId} onChange={setLoserId} style={{marginRight: 15}}/>
+
+				<Button variant="contained" color="secondary" size="large" onClick={handleCreateGameAsync} style={{height: '60px', fontWeight: 'bold', marginRight: 10}} >
 					SUBMIT
 				</Button>
 
