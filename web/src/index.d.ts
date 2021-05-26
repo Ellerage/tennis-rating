@@ -5,3 +5,11 @@ export interface User {
     username: string
     rating: string
 }
+
+
+ declare module 'react-fireflies' {
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    const f:any
+
+    export default f
+}
