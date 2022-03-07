@@ -6,3 +6,5 @@ export interface UserI {
     rating: number
     isPremium: boolean
 }
+
+export type ANY_TYPE = any

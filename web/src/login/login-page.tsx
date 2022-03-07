@@ -6,7 +6,7 @@ import { ReactElement } from 'react'
 import { Header } from '../ui/header'
 import { ButtonStyle } from '../ui/button'
 import { useHistory } from 'react-router'
-import { Routes } from '../common/routes'
+import { ROUTES } from '../common/routes'
 import { Input } from '../ui/input'
 import { getUrlApi } from '../common/get-url'
 import { DataEncrypted } from '../ui/data-encrypted'
@@ -30,7 +30,7 @@ export const LoginPage = (): ReactElement => {
 		if (result.token) {
 			localStorage.setItem('token', result.token)
 
-			history.push(Routes.RANKING)
+			history.push(ROUTES.RANKING)
 		}
 	}
 
@@ -48,8 +48,8 @@ export const LoginPage = (): ReactElement => {
 					<Header />
 				</Box>
 				<Box width="100%" marginTop="16px">
-					<ButtonStyle text="Sign in" onClick={() => history.push(Routes.LOGIN)} isActive />
-					<ButtonStyle text="Sign up" onClick={() => history.push(Routes.SIGNUP)} />
+					<ButtonStyle text="Sign in" onClick={() => history.push(ROUTES.LOGIN)} isActive />
+					<ButtonStyle text="Sign up" onClick={() => history.push(ROUTES.SIGNUP)} />
 				</Box>
 				<Box flexWrap="wrap" width="340px" marginLeft="50px" >
 					<form onSubmit={(event) => event.preventDefault()}>

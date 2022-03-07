@@ -1,18 +1,18 @@
+import React, { ReactElement, useEffect } from 'react'
+
 import { makeStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
-import React, { ReactElement, useEffect } from 'react'
 import styled from 'styled-components'
 import { Box } from '@material-ui/core'
 import { useHistory } from 'react-router'
-import { Routes } from '../common/routes'
-import { UserI } from '../common/types'
 import tournamentsStore from '../store/tournaments'
 import { observer } from 'mobx-react-lite'
 import { ReactComponent as RedZalups } from '../ui/icons/red-zalups.svg'
+import { ANY_TYPE } from '../common/types'
 
 const useStyles = makeStyles({
 	table: {
@@ -50,7 +50,7 @@ export const TournamentsPage = observer((): ReactElement => {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{tournamentsStore.tournaments.map(({tournament}: any, index: number) => {
+					{tournamentsStore.tournaments.map(({tournament}: ANY_TYPE) => {
 						const date = new Date(tournament.created_at)
 						return (
 							<TableRow style={{cursor: 'pointer'}} key={tournament.id} onClick={() => {

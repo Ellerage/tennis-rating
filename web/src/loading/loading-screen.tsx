@@ -1,6 +1,6 @@
 import React, { ReactElement, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
-import { Routes } from '../common/routes'
+import { ROUTES } from '../common/routes'
 import { Loader } from '../ui/loader'
 import meStore from '../store/me'
 import { observer } from 'mobx-react-lite'
@@ -13,12 +13,12 @@ export const LoadingScreen = observer((): ReactElement => {
 			const token = localStorage.getItem('token')
 
 			if (!token) {
-				history.push(Routes.LOGIN)
+				history.push(ROUTES.LOGIN)
 				return
 			}
 	
 			await meStore.fetchMe()
-			history.push(Routes.RANKING)
+			history.push(ROUTES.RANKING)
 		}
 
 		init()

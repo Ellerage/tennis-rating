@@ -1,11 +1,13 @@
-import { Box } from '@material-ui/core'
 import React, { ReactElement } from 'react'
+
+import { Box } from '@material-ui/core'
 import { useLocation } from 'react-router'
 import { ReactComponent as RedZalups } from '../ui/icons/red-zalups.svg'
+import get from 'lodash/get'
 
 export const BraketPage = (): ReactElement => {
-	const location: any = useLocation()
-	const linkBraket = location.state.link
+	const location = useLocation()
+	const linkBraket = get(location, 'state.link')
 
 
 	return (

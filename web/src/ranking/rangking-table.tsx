@@ -14,7 +14,7 @@ import { getTierName } from '../common/get-tier-name'
 import { getTierColor } from '../common/get-tier-color'
 import Founder from '../ui/icons/founder.png'
 import { useHistory } from 'react-router'
-import { Routes } from '../common/routes'
+import { ROUTES } from '../common/routes'
 import { UserI } from '../common/types'
 
 interface Props {
@@ -58,7 +58,7 @@ export const RankingTable = ({users, me}: Props): ReactElement => {
 						const losingRating = EloRating.calculate(me.rating, user.rating, false, 100).playerRating
 
 						return (
-							<Tooltip key={user.id} title={`Winning: ${winningRating} Losing: ${losingRating}`} placement="right" onClick={() => history.push(`${Routes.PROFILE}/${user.id}`, {
+							<Tooltip key={user.id} title={`Winning: ${winningRating} Losing: ${losingRating}`} placement="right" onClick={() => history.push(`${ROUTES.PROFILE}/${user.id}`, {
 								userId: user.id
 							})}>
 								<TableRow style={{position: 'relative', cursor: 'pointer'}}>

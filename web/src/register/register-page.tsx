@@ -3,7 +3,7 @@ import { Box, Button } from '@material-ui/core'
 import { Header } from '../ui/header'
 import { ButtonStyle } from '../ui/button'
 import { useHistory } from 'react-router'
-import { Routes } from '../common/routes'
+import { ROUTES } from '../common/routes'
 import { Input } from '../ui/input'
 import { getUrlApi } from '../common/get-url'
 import { DataEncrypted } from '../ui/data-encrypted'
@@ -33,7 +33,7 @@ export const RegisterPage = (): ReactElement => {
 		const result = await response.json()
 
 		if (result.status === 'OK') {
-			history.push(Routes.LOGIN)
+			history.push(ROUTES.LOGIN)
 		}
 	}
 
@@ -56,8 +56,8 @@ export const RegisterPage = (): ReactElement => {
 					display="flex"
 					justifyContent="space-around"
 				>
-					<ButtonStyle text="Sign in" onClick={() => history.push(Routes.LOGIN)} />
-					<ButtonStyle text="Sign up" isActive={true} onClick={() => history.push(Routes.SIGNUP)} />
+					<ButtonStyle text="Sign in" onClick={() => history.push(ROUTES.LOGIN)} />
+					<ButtonStyle text="Sign up" isActive={true} onClick={() => history.push(ROUTES.SIGNUP)} />
 				</Box>
 				<form onSubmit={event => event.preventDefault()}>
 					<Box display="flex" justifyContent="center" marginTop="20px">

@@ -1,11 +1,11 @@
-export enum Routes {
-    LOGIN = 'LOGIN',
-    SIGNUP = 'SIGNUP',
-    RANKING = 'RANKING',
-    PROFILE = 'PROFILE',
-    HISTORY = 'HISTORY',
-    ANEKI = 'ANEKI',
-    FOUNDERS = 'founders',
-    TOURNAMENTS = 'TOURNAMENTS',
-    DONATE = 'DONATE'
+export const ROUTES = {
+	LOGIN: '/login',
+	SIGNUP: '/signup',
+	RANKING: '/ranking',
+	PROFILE: '/profile',
+	HISTORY: '/history',
+	ANEKI: '/aneki',
+	FOUNDERS: '/founders',
+	TOURNAMENTS: '/tournaments',
+	DONATE: '/donate'
 }

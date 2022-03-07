@@ -2,7 +2,7 @@ import { Box, ButtonBase } from '@material-ui/core'
 import React, { ReactElement, useState } from 'react'
 import { useHistory } from 'react-router'
 import styled from 'styled-components'
-import { Routes } from '../../common/routes'
+import { ROUTES } from '../../common/routes'
 import { Toast } from '../../ui/toast'
 
 const Button = styled(ButtonBase)`
@@ -25,12 +25,12 @@ export const ActionButtons = (): ReactElement => {
 	const [isOpen, setIsOpen] = useState(false)
 
 	const navigateToAneki = () => {
-		history.push(Routes.ANEKI)
+		history.push(ROUTES.ANEKI)
 		window.location.reload()
 	}
 
 	const navigateToTournaments = () => {
-		history.push(Routes.TOURNAMENTS)
+		history.push(ROUTES.TOURNAMENTS)
 	}
 
 	const navigateToDonate = () => {

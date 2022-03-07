@@ -3,7 +3,7 @@ import { makeAutoObservable } from 'mobx'
 
 
 class Tournament {
-    tournaments: any[] = []
+    tournaments: unknown[] = []
     nameTounament = ''
     tournamentId = ''
     svgLiveStream = ''
