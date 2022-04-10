@@ -1,5 +1,4 @@
 import { NotFoundException } from '@nestjs/common';
-import { isArray } from 'class-validator';
 import { User } from 'src/user/user.entity';
 import { Repository, EntityRepository } from 'typeorm';
 import { ConfirmGameDto } from './dto/confirm-game.dto';
@@ -8,13 +7,17 @@ import { Game } from './game.entity';
 
 @EntityRepository(Game)
 export class GameRepository extends Repository<Game> {
-    async createGame(createGame: { players: User[] }) {
+    async createGame(createGame: { players: User[], confirmedUser: User }) {
+        const { players, confirmedUser } = createGame
         const game = this.create()
 
-        game.players = createGame.players
+        game.players = players
         game.created_at = new Date()
+        game.confirmedUsers = [confirmedUser]
+
         await game.save()
 
+        console.log(game)
         return game
     }
 
@@ -40,8 +43,10 @@ export class GameRepository extends Repository<Game> {
 
         const games = await query.getMany()
 
-        return games.filter((game) =>
-            !!game.players.find((player) => player.id === userId)
+        return games.filter((game) => {
+            console.log(game.confirmedUsers)
+            return !!game.players.find((player) => player.id === userId) //&& !!game.confirmedUsers.find((user) => user.id !== userId)
+        }
         )
     }
 
@@ -90,17 +95,19 @@ export class GameRepository extends Repository<Game> {
         }
     }
 
-    async confirmGame(confirmGameDto: ConfirmGameDto) {
+    async confirmGame(confirmGameDto: ConfirmGameDto, me: User) {
         const query = this.createQueryBuilder("game")
             .where("game.isConfirmed=false")
         // .andWhere("game.id IN (:...gamesIds)", { gamesIds: confirmGameDto.gameIds })
 
-
-
         const games = await query.getMany()
+        console.log(games[0])
+
         games.forEach(async (game) => {
             game.isConfirmed = true
-            await game.save()
+            if (game.confirmedUsers[0].id !== me.id) {
+                await game.save()
+            }
         })
 
         return { status: "OK" }

@@ -29,7 +29,7 @@ export class GameController {
             throw new BadRequestException("You cannot challenge yourself")
         }
 
-        return this.gameService.createGame(createGameDto)
+        return this.gameService.createGame(createGameDto, user)
     }
 
     @Get()
@@ -39,7 +39,8 @@ export class GameController {
     }
 
     @Post("/confirm")
-    confirmGame(@Body() confirmGameDto: ConfirmGameDto) {
-        return this.gameService.confirmGame(confirmGameDto)
+    @UseGuards(AuthGuard("jwt"))
+    confirmGame(@CurrentUser() user: User, @Body() confirmGameDto: ConfirmGameDto) {
+        return this.gameService.confirmGame(confirmGameDto, user)
     }
 }
